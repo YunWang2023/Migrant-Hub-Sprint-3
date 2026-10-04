@@ -1,4 +1,4 @@
-import { Routes, Route, NavLink, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, NavLink, Link } from "react-router-dom";
 import "./App.css";
 
 /* =========================
@@ -15,29 +15,12 @@ function Navbar() {
         </Link>
 
         <div className="nav-links">
-          <NavLink to="/" end>
-            Home
-          </NavLink>
-
-          <NavLink to="/blog">
-            Blog
-          </NavLink>
-
-          <NavLink to="/write-post">
-            Write a Post
-          </NavLink>
-
-          <NavLink to="/must-do">
-            Must Do
-          </NavLink>
-
-          <NavLink to="/community">
-            Community
-          </NavLink>
-
-          <NavLink to="/search">
-            Search
-          </NavLink>
+          <NavLink to="/" end>Home</NavLink>
+          <NavLink to="/blog">Blog</NavLink>
+          <NavLink to="/write-post">Write a Post</NavLink>
+          <NavLink to="/must-do">Must Do</NavLink>
+          <NavLink to="/community">Community</NavLink>
+          <NavLink to="/search">Search</NavLink>
 
           <Link to="/login" className="login-button">
             Login
@@ -62,8 +45,7 @@ function Footer() {
         <h3>Migrant Hub</h3>
 
         <p>
-          Helping international students and newcomers settle into life in
-          Finland.
+          Helping international students and newcomers settle into life in Finland.
         </p>
 
         <p>© 2026 Migrant Hub</p>
@@ -107,7 +89,6 @@ function Home() {
             </p>
 
             <div className="search-box">
-
               <input
                 type="text"
                 placeholder="What are you looking for?"
@@ -116,7 +97,6 @@ function Home() {
               <button>
                 Search
               </button>
-
             </div>
 
             <div className="category-buttons">
@@ -135,10 +115,7 @@ function Home() {
             <span>New faces</span>
             <br />
             <span>Similar home</span>
-
-            <div className="heart">
-              ♡
-            </div>
+            <div className="heart">♡</div>
           </div>
 
         </section>
@@ -149,58 +126,35 @@ function Home() {
         <section className="feature-strip">
 
           <div className="feature">
-
-            <div className="feature-icon">
-              □
-            </div>
-
+            <div className="feature-icon">□</div>
             <div>
               <h3>Practical Guides</h3>
               <p>Step by step</p>
             </div>
-
           </div>
 
-
           <div className="feature">
-
-            <div className="feature-icon">
-              ♟
-            </div>
-
+            <div className="feature-icon">♟</div>
             <div>
               <h3>Real Experiences</h3>
               <p>From students</p>
             </div>
-
           </div>
 
-
           <div className="feature">
-
-            <div className="feature-icon">
-              ♡
-            </div>
-
+            <div className="feature-icon">♡</div>
             <div>
               <h3>Supportive Community</h3>
               <p>Connect & belong</p>
             </div>
-
           </div>
 
-
           <div className="feature">
-
-            <div className="feature-icon">
-              ♟
-            </div>
-
+            <div className="feature-icon">♟</div>
             <div>
               <h3>Life in Finland</h3>
               <p>Explore the culture</p>
             </div>
-
           </div>
 
         </section>
@@ -213,7 +167,6 @@ function Home() {
           <div className="section-header">
 
             <div>
-
               <div className="eyebrow dark">
                 LATEST STORIES
               </div>
@@ -221,13 +174,9 @@ function Home() {
               <h2>
                 Helpful posts for your journey
               </h2>
-
             </div>
 
-            <Link
-              to="/blog"
-              className="view-posts"
-            >
+            <Link to="/blog" className="view-posts">
               View all posts →
             </Link>
 
@@ -302,10 +251,7 @@ function PostCard({
         {tags}
       </div>
 
-      <Link
-        to="#"
-        className="read-more"
-      >
+      <Link to="#" className="read-more">
         Read more →
       </Link>
 
@@ -337,7 +283,6 @@ function Blog() {
         <div className="blog-header">
 
           <div>
-
             <div className="eyebrow dark">
               LATEST POSTS
             </div>
@@ -345,13 +290,9 @@ function Blog() {
             <h2>
               Explore the community
             </h2>
-
           </div>
 
-          <Link
-            to="/"
-            className="back-home"
-          >
+          <Link to="/" className="back-home">
             ← Back home
           </Link>
 
@@ -450,11 +391,9 @@ function WritePost() {
           </label>
 
           <select>
-
             <option>
               Select a category
             </option>
-
             <option>Housing</option>
             <option>Paperwork</option>
             <option>Transport</option>
@@ -462,7 +401,6 @@ function WritePost() {
             <option>Study</option>
             <option>Community</option>
             <option>Places</option>
-
           </select>
 
 
@@ -471,15 +409,10 @@ function WritePost() {
           </label>
 
           <select>
-
             <option>
               Select a community
             </option>
-
-            <option>
-              Helsinki Newcomers Community
-            </option>
-
+            <option>Helsinki Newcomers Community</option>
           </select>
 
 
@@ -544,10 +477,7 @@ function MustDo() {
 
           {tasks.map((task, index) => (
 
-            <div
-              className="task-card"
-              key={index}
-            >
+            <div className="task-card" key={index}>
 
               <h2>
                 {task.title}
@@ -694,44 +624,42 @@ function Login() {
 
 function App() {
   return (
-    <Routes>
+    <BrowserRouter>
 
-      <Route
-        path="/"
-        element={<Home />}
-      />
+      <Routes>
 
-      <Route
-        path="/blog"
-        element={<Blog />}
-      />
+        <Route path="/" element={<Home />} />
 
-      <Route
-        path="/write-post"
-        element={<WritePost />}
-      />
+        <Route path="/blog" element={<Blog />} />
 
-      <Route
-        path="/must-do"
-        element={<MustDo />}
-      />
+        <Route
+          path="/write-post"
+          element={<WritePost />}
+        />
 
-      <Route
-        path="/community"
-        element={<Community />}
-      />
+        <Route
+          path="/must-do"
+          element={<MustDo />}
+        />
 
-      <Route
-        path="/search"
-        element={<Search />}
-      />
+        <Route
+          path="/community"
+          element={<Community />}
+        />
 
-      <Route
-        path="/login"
-        element={<Login />}
-      />
+        <Route
+          path="/search"
+          element={<Search />}
+        />
 
-    </Routes>
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
   );
 }
 

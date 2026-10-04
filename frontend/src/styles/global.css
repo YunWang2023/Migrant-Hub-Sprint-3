@@ -1,411 +1,1506 @@
-:root {
-    --background: #F7F9FA;
-    --header-footer: #152736;
-    --text: #1B2733;
-    --card: #FFFFFF;
-    --accent: #A6551F;
-}
+/* =========================================================
+   MIGRANT HUB
+   HELSINKI VISUAL THEME
+========================================================= */
 
 
-/* =========================
-   HEADER
-========================= */
+/* =========================================================
+   RESET
+========================================================= */
 
-.site-header {
-    width: 100%;
-    background-color: var(--header-footer);
-    color: white;
-}
-
-.navbar {
-    width: 100%;
-    min-height: 72px;
-    padding: 0 30px;
-
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    flex-wrap: nowrap;
-
+* {
     box-sizing: border-box;
-}
-
-
-/* Migrant Hub - LEFT */
-
-.logo {
-    color: white;
-    font-size: 1.4rem;
-    font-weight: 700;
-
-    flex-shrink: 0;
-    white-space: nowrap;
-    text-decoration: none;
-}
-
-
-/* Navigation - RIGHT */
-
-.nav-links {
-    margin-left: auto;
-
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: flex-end;
-
-    gap: 24px;
-    white-space: nowrap;
-}
-
-.nav-links a {
-    color: white;
-    font-size: 0.95rem;
-    font-weight: 500;
-    opacity: 0.85;
-
-    display: inline-block;
-    white-space: nowrap;
-    text-decoration: none;
-
-    transition:
-        transform 0.2s ease,
-        opacity 0.2s ease,
-        color 0.2s ease;
-}
-
-
-/* Mouse Hover */
-
-.nav-links a:hover {
-    opacity: 1;
-    transform: translateY(-2px) scale(1.05);
-}
-
-
-/* Current Selected Page */
-
-.nav-links a.active {
-    color: var(--accent);
-    opacity: 1;
-}
-
-
-/* While Clicking */
-
-.nav-links a:active {
-    transform: scale(0.90);
-}
-
-
-/* =========================
-   MOBILE HEADER
-========================= */
-
-@media (max-width: 700px) {
-
-    .navbar {
-        padding: 0 15px;
-    }
-
-    .logo {
-        font-size: 1.1rem;
-    }
-
-    .nav-links {
-        gap: 12px;
-    }
-
-    .nav-links a {
-        font-size: 0.78rem;
-    }
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-.site-footer {
-    background-color: var(--header-footer);
-    color: white;
-    margin-top: auto;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 35px 24px;
-}
-
-.footer-content h3 {
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
     margin: 0;
-    font-size: 1.3rem;
-}
-
-.footer-content p {
-    margin-top: 10px;
-    margin-bottom: 0;
-    opacity: 0.8;
-    line-height: 1.6;
-}
-
-.copyright {
-    font-size: 0.9rem;
-}
-
-
-/* =========================
-   HERO
-========================= */
-
-.hero-section {
-    background-color: var(--background);
-    padding: 80px 24px;
-}
-
-.hero-content {
-    max-width: 900px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #172b42;
+    background: #f5f1eb;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+  
+  
+  /* =========================================================
+     NAVBAR
+  ========================================================= */
+  
+  .navbar {
+    width: 100%;
+    background: #06243a;
+    color: white;
+    position: relative;
+    z-index: 20;
+  }
+  
+  .nav-container {
+    max-width: 1250px;
     margin: 0 auto;
-    text-align: center;
-}
-
-.hero-label {
-    color: var(--accent);
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-}
-
-.hero-content h1 {
-    color: var(--text);
-    font-size: 3rem;
-    line-height: 1.15;
-    margin: 0 auto 20px;
-    max-width: 750px;
-}
-
-.hero-text {
-    max-width: 650px;
-    margin: 0 auto 30px;
-
-    font-size: 1.05rem;
-    line-height: 1.7;
-
-    color: var(--text);
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-.hero-search {
-    max-width: 650px;
-    margin: 0 auto 25px;
-
+    min-height: 92px;
+  
     display: flex;
-
-    background-color: var(--card);
-
-    border-radius: 8px;
+    align-items: center;
+    justify-content: space-between;
+  
+    padding: 0 45px;
+  }
+  
+  .logo {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: white;
+  }
+  
+  .logo span {
+    color: #e56d22;
+  }
+  
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  
+  .nav-links a {
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    position: relative;
+    padding: 34px 0;
+  }
+  
+  .nav-links a:hover {
+    color: #f07a2b;
+  }
+  
+  .nav-links a.active {
+    color: #f07a2b;
+  }
+  
+  .nav-links a.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 22px;
+    height: 2px;
+    background: #f07a2b;
+  }
+  
+  .login-button {
+    background: #ffffff;
+    color: #d35e1b !important;
+    padding: 13px 25px !important;
+    border-radius: 6px;
+  }
+  
+  .login-button:hover {
+    background: #f4eee7 !important;
+  }
+  
+  
+  /* =========================================================
+     GLOBAL HELSINKI BACKGROUND
+  ========================================================= */
+  
+  .page,
+  .write-page,
+  .must-do-page,
+  .community-page,
+  .search-page,
+  .login-page {
+    position: relative;
+    min-height: 650px;
+  
+    background-image:
+      linear-gradient(
+        rgba(245, 241, 235, 0.88),
+        rgba(245, 241, 235, 0.94)
+      ),
+      url("https://images.unsplash.com/photo-1523978591478-c753949ff840?q=85&w=2200");
+  
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  
+  
+  /* =========================================================
+     HOME HERO
+  ========================================================= */
+  
+  .hero {
+    min-height: 560px;
+  
+    position: relative;
+  
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(3, 28, 46, 0.94) 0%,
+        rgba(3, 28, 46, 0.78) 40%,
+        rgba(3, 28, 46, 0.25) 75%,
+        rgba(3, 28, 46, 0.12) 100%
+      ),
+      url("https://images.unsplash.com/photo-1523978591478-c753949ff840?q=85&w=2200");
+  
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .hero-overlay {
+    display: none;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  
+    max-width: 1250px;
+    margin: 0 auto;
+  
+    padding: 75px 45px 70px;
+  }
+  
+  .eyebrow {
+    color: #f07829;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    margin-bottom: 22px;
+  }
+  
+  .eyebrow.dark {
+    color: #d96521;
+  }
+  
+  .hero h1 {
+    max-width: 850px;
+  
+    margin: 0;
+  
+    color: white;
+  
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(48px, 5vw, 74px);
+    line-height: 1.02;
+    font-weight: 700;
+  }
+  
+  .hero-description {
+    max-width: 680px;
+  
+    margin: 25px 0 30px;
+  
+    color: white;
+  
+    font-size: 17px;
+    line-height: 1.7;
+  }
+  
+  
+  /* =========================================================
+     SEARCH BOX
+  ========================================================= */
+  
+  .search-box {
+    width: 540px;
+    max-width: 100%;
+  
+    display: flex;
+  
+    background: white;
+  
+    border-radius: 6px;
     overflow: hidden;
-    border: 1px solid #dfe4e8;
-}
-
-.hero-search input {
+  
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+  }
+  
+  .search-box input {
     flex: 1;
-
-    padding: 16px 18px;
-
+  
     border: none;
     outline: none;
-
-    background-color: var(--card);
-    color: var(--text);
-}
-
-.hero-search button {
+  
+    padding: 17px 18px;
+  
+    color: #172b42;
+  }
+  
+  .search-box button {
     border: none;
-    padding: 0 25px;
-
-    background-color: var(--accent);
+  
+    padding: 0 28px;
+  
+    background: #df681f;
     color: white;
-
-    font-weight: 600;
-    cursor: pointer;
-
-    transition:
-        transform 0.2s ease,
-        opacity 0.2s ease;
-}
-
-.hero-search button:hover {
-    opacity: 0.9;
-}
-
-.hero-search button:active {
-    transform: scale(0.96);
-}
-
-
-/* =========================
-   CATEGORIES
-========================= */
-
-.category-chips {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-
-    gap: 10px;
-}
-
-.category-chip {
-    padding: 9px 16px;
-
-    border: 1px solid var(--accent);
-    border-radius: 20px;
-
-    background-color: var(--card);
-    color: var(--accent);
-
-    cursor: pointer;
-    font-weight: 500;
-
-    transition:
-        transform 0.2s ease,
-        background-color 0.2s ease,
-        color 0.2s ease;
-}
-
-.category-chip:hover {
-    background-color: var(--accent);
-    color: white;
-
-    transform: translateY(-2px) scale(1.03);
-}
-
-.category-chip:active {
-    transform: scale(0.95);
-}
-
-
-/* =========================
-   HERO MOBILE
-========================= */
-
-@media (max-width: 768px) {
-
-    .hero-section {
-        padding: 55px 20px;
-    }
-
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
-
-    .hero-search {
-        flex-direction: column;
-    }
-
-    .hero-search button {
-        padding: 14px;
-    }
-}
-
-
-/* =========================
-   LATEST POSTS
-========================= */
-
-.latest-posts-section {
-    padding: 70px 24px;
-    background-color: var(--card);
-}
-
-.section-container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.section-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-
-    gap: 20px;
-    margin-bottom: 35px;
-}
-
-.section-label {
-    margin: 0 0 8px;
-
-    color: var(--accent);
-
-    font-size: 0.8rem;
+  
     font-weight: 700;
-    letter-spacing: 2px;
-}
-
-.section-heading h2 {
-    margin: 0;
-
-    color: var(--text);
-    font-size: 2rem;
-}
-
-.view-all-link {
-    color: var(--accent);
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.view-all-link:hover {
-    text-decoration: underline;
-}
-
-
-/* =========================
-   POSTS GRID
-========================= */
-
-.posts-grid {
-    min-height: 180px;
-    padding: 35px;
-
-    background-color: var(--background);
-    border-radius: 10px;
-
+  
+    cursor: pointer;
+  }
+  
+  .search-box button:hover {
+    background: #c95717;
+  }
+  
+  
+  /* =========================================================
+     CATEGORY BUTTONS
+  ========================================================= */
+  
+  .category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+  
+    gap: 8px;
+  
+    margin-top: 15px;
+  }
+  
+  .category-buttons button {
+    background: rgba(6, 36, 58, 0.5);
+  
+    border: 1px solid rgba(255, 255, 255, 0.7);
+  
+    color: white;
+  
+    border-radius: 20px;
+  
+    padding: 6px 14px;
+  
+    font-size: 12px;
+  
+    cursor: pointer;
+  }
+  
+  .category-buttons button:hover {
+    background: #df681f;
+    border-color: #df681f;
+  }
+  
+  
+  /* =========================================================
+     HERO TAGLINE
+  ========================================================= */
+  
+  .hero-tagline {
+    position: absolute;
+  
+    right: 13%;
+    bottom: 105px;
+  
+    z-index: 3;
+  
+    color: white;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 28px;
+    font-style: italic;
+  
+    text-align: center;
+  
+    line-height: 0.95;
+  }
+  
+  .hero-tagline .heart {
+    font-size: 50px;
+    margin-top: 10px;
+  }
+  
+  
+  /* =========================================================
+     FEATURE STRIP
+  ========================================================= */
+  
+  .feature-strip {
+    background: #062a43;
+  
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  
+    color: white;
+  }
+  
+  .feature {
+    min-height: 105px;
+  
+    padding: 25px;
+  
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.posts-grid p {
-    color: var(--text);
-    opacity: 0.65;
-}
-
-
-/* =========================
-   LATEST POSTS MOBILE
-========================= */
-
-@media (max-width: 768px) {
-
-    .latest-posts-section {
-        padding: 50px 20px;
+  
+    gap: 15px;
+  
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  
+  .feature:last-child {
+    border-right: none;
+  }
+  
+  .feature-icon {
+    width: 42px;
+    height: 42px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    border: 1px solid rgba(255, 255, 255, 0.65);
+  
+    border-radius: 50%;
+  
+    font-size: 18px;
+  }
+  
+  .feature h3 {
+    margin: 0 0 5px;
+  
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 17px;
+  }
+  
+  .feature p {
+    margin: 0;
+  
+    font-size: 12px;
+    opacity: 0.75;
+  }
+  
+  
+  /* =========================================================
+     LATEST SECTION
+  ========================================================= */
+  
+  .latest-section {
+    position: relative;
+  
+    max-width: 1250px;
+  
+    margin: 0 auto;
+  
+    padding: 70px 45px 90px;
+  }
+  
+  .latest-section::before {
+    content: "";
+  
+    position: absolute;
+  
+    inset: 25px 20px;
+  
+    z-index: -1;
+  
+    background: rgba(255, 255, 255, 0.45);
+  
+    border-radius: 18px;
+  }
+  
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  
+    margin-bottom: 35px;
+  }
+  
+  .section-header h2 {
+    margin: 0;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 38px;
+    color: #172b42;
+  }
+  
+  .view-posts {
+    color: #d96521;
+    font-weight: 700;
+  }
+  
+  .view-posts:hover {
+    color: #a94713;
+  }
+  
+  
+  /* =========================================================
+     POST GRID
+  ========================================================= */
+  
+  .post-grid {
+    display: grid;
+  
+    grid-template-columns: repeat(3, 1fr);
+  
+    gap: 22px;
+  }
+  
+  .post-card {
+    background: rgba(255, 255, 255, 0.95);
+  
+    border: 1px solid #ddd7cf;
+  
+    border-radius: 6px;
+  
+    padding: 30px;
+  
+    min-height: 240px;
+  
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  
+  .post-card:hover {
+    transform: translateY(-5px);
+  
+    box-shadow:
+      0 15px 35px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-category {
+    color: #d96521;
+  
+    font-size: 13px;
+  
+    margin-bottom: 20px;
+  }
+  
+  .post-card h3 {
+    margin: 0 0 15px;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 23px;
+  
+    color: #172b42;
+  }
+  
+  .post-author {
+    margin-bottom: 18px;
+  
+    color: #586979;
+  
+    font-size: 14px;
+  }
+  
+  .post-card p {
+    color: #31465c;
+  
+    line-height: 1.55;
+  }
+  
+  .post-tags {
+    margin-top: 20px;
+  
+    color: #536577;
+  
+    font-size: 13px;
+  }
+  
+  .read-more {
+    display: inline-block;
+  
+    margin-top: 12px;
+  
+    color: #d96521;
+  
+    font-weight: 700;
+  
+    font-size: 14px;
+  }
+  
+  
+  /* =========================================================
+     GENERAL PAGE
+  ========================================================= */
+  
+  .page {
+    padding: 70px max(45px, calc((100% - 1250px) / 2));
+  }
+  
+  .page-title {
+    margin: 0 0 20px;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 52px;
+  
+    color: #172b42;
+  }
+  
+  .page-description {
+    max-width: 850px;
+  
+    font-size: 18px;
+  
+    line-height: 1.6;
+  
+    margin-bottom: 60px;
+  }
+  
+  .blog-header {
+    display: flex;
+  
+    align-items: flex-end;
+  
+    justify-content: space-between;
+  
+    margin-bottom: 30px;
+  }
+  
+  .blog-header h2 {
+    margin: 0;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 38px;
+  }
+  
+  .back-home {
+    color: #d96521;
+  
+    font-weight: 700;
+  }
+  
+  
+  /* =========================================================
+     WRITE POST
+  ========================================================= */
+  
+  .write-page {
+    padding: 70px max(45px, calc((100% - 930px) / 2));
+  }
+  
+  .write-heading {
+    margin-bottom: 30px;
+  }
+  
+  .write-heading h1 {
+    margin: 0 0 15px;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 50px;
+  }
+  
+  .write-heading p {
+    color: #536577;
+  }
+  
+  .write-form {
+    background: rgba(255, 255, 255, 0.96);
+  
+    border: 1px solid #ddd7cf;
+  
+    border-radius: 7px;
+  
+    padding: 30px;
+  
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
+  }
+  
+  .write-form label {
+    display: block;
+  
+    margin: 0 0 8px;
+  
+    font-weight: 600;
+  
+    color: #172b42;
+  }
+  
+  .write-form input,
+  .write-form textarea,
+  .write-form select {
+    width: 100%;
+  
+    border: 1px solid #d6d1ca;
+  
+    border-radius: 5px;
+  
+    background: white;
+  
+    padding: 14px;
+  
+    margin-bottom: 20px;
+  
+    outline: none;
+  }
+  
+  .write-form textarea {
+    min-height: 240px;
+  
+    resize: vertical;
+  }
+  
+  .write-form input:focus,
+  .write-form textarea:focus,
+  .write-form select:focus {
+    border-color: #d96521;
+  
+    box-shadow: 0 0 0 3px rgba(217, 101, 33, 0.1);
+  }
+  
+  .word-count {
+    margin-top: -12px;
+    margin-bottom: 22px;
+  
+    color: #718092;
+  
+    font-size: 13px;
+  }
+  
+  .publish-button {
+    background: #d96521;
+  
+    color: white;
+  
+    border: none;
+  
+    border-radius: 5px;
+  
+    padding: 13px 22px;
+  
+    font-weight: 700;
+  
+    cursor: pointer;
+  }
+  
+  .publish-button:hover {
+    background: #b94f13;
+  }
+  
+  
+  /* =========================================================
+     MUST DO
+  ========================================================= */
+  
+  .must-do-page {
+    padding: 65px max(45px, calc((100% - 1020px) / 2));
+  }
+  
+  .must-do-page h1 {
+    margin: 0 0 35px;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 50px;
+  }
+  
+  .task-grid {
+    display: grid;
+  
+    grid-template-columns: repeat(3, 1fr);
+  
+    gap: 25px;
+  }
+  
+  .task-card {
+    background: rgba(255, 255, 255, 0.96);
+  
+    padding: 28px;
+  
+    border-radius: 8px;
+  
+    min-height: 250px;
+  
+    border: 1px solid #ddd7cf;
+  
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  
+    display: flex;
+  
+    flex-direction: column;
+  }
+  
+  .task-card h2 {
+    margin-top: 0;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 22px;
+  }
+  
+  .task-card p {
+    line-height: 1.5;
+  
+    color: #45586b;
+  
+    flex: 1;
+  }
+  
+  .task-card button {
+    align-self: flex-start;
+  
+    border: none;
+  
+    background: #d96521;
+  
+    color: white;
+  
+    padding: 11px 18px;
+  
+    border-radius: 5px;
+  
+    font-weight: 700;
+  
+    cursor: pointer;
+  }
+  
+  .task-card button:hover {
+    background: #b94f13;
+  }
+  
+  
+  /* =========================================================
+     COMMUNITY
+  ========================================================= */
+  
+  .community-page {
+    padding: 80px max(45px, calc((100% - 800px) / 2));
+  }
+  
+  .community-page h1 {
+    margin: 0 0 18px;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 48px;
+  }
+  
+  .community-description {
+    font-size: 18px;
+  
+    color: #536577;
+  
+    margin-bottom: 25px;
+  }
+  
+  .join-button {
+    border: none;
+  
+    background: #d96521;
+  
+    color: white;
+  
+    padding: 13px 22px;
+  
+    border-radius: 5px;
+  
+    font-weight: 700;
+  
+    cursor: pointer;
+  }
+  
+  .community-post-title {
+    margin-top: 55px;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 34px;
+  }
+  
+  .community-post {
+    background: rgba(255, 255, 255, 0.96);
+  
+    border: 1px solid #ddd7cf;
+  
+    padding: 30px;
+  
+    border-radius: 7px;
+  
+    margin-top: 20px;
+  
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  }
+  
+  .community-post h3 {
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 23px;
+  }
+  
+  
+  /* =========================================================
+     SEARCH
+  ========================================================= */
+  
+  .search-page {
+    padding: 100px max(45px, calc((100% - 900px) / 2));
+  
+    min-height: 650px;
+  }
+  
+  .search-page h1 {
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 55px;
+  
+    margin: 0;
+  }
+  
+  
+  /* =========================================================
+     LOGIN
+  ========================================================= */
+  
+  .login-page {
+    min-height: 650px;
+  
+    display: flex;
+  
+    justify-content: center;
+  
+    align-items: center;
+  
+    padding: 70px 30px;
+  }
+  
+  .login-container {
+    width: 100%;
+  
+    max-width: 420px;
+  
+    background: rgba(255, 255, 255, 0.96);
+  
+    border: 1px solid #ddd7cf;
+  
+    border-radius: 8px;
+  
+    padding: 40px;
+  
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  }
+  
+  .login-container h1 {
+    margin-top: 0;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 42px;
+  
+    text-align: center;
+  }
+  
+  .login-container input {
+    width: 100%;
+  
+    padding: 14px;
+  
+    margin-bottom: 15px;
+  
+    border: 1px solid #d6d1ca;
+  
+    border-radius: 5px;
+  
+    outline: none;
+  }
+  
+  .login-container input:focus {
+    border-color: #d96521;
+  }
+  
+  .login-container button {
+    width: 100%;
+  
+    padding: 14px;
+  
+    border: none;
+  
+    border-radius: 5px;
+  
+    background: #d96521;
+  
+    color: white;
+  
+    font-weight: 700;
+  
+    cursor: pointer;
+  }
+  
+  .login-container button:hover {
+    background: #b94f13;
+  }
+  
+  
+  /* =========================================================
+     FOOTER
+  ========================================================= */
+  
+  .footer {
+    background: #06243a;
+  
+    color: white;
+  
+    padding: 45px max(45px, calc((100% - 1250px) / 2));
+  }
+  
+  .footer-container h3 {
+    margin: 0 0 15px;
+  
+    font-family: Georgia, "Times New Roman", serif;
+  
+    font-size: 25px;
+  }
+  
+  .footer-container p {
+    color: rgba(255, 255, 255, 0.85);
+  
+    line-height: 1.6;
+  }
+  
+  
+  /* =========================================================
+     RESPONSIVE
+  ========================================================= */
+  
+  @media (max-width: 1000px) {
+  
+    .nav-container {
+      padding: 0 25px;
     }
-
-    .section-heading {
-        flex-direction: column;
-        align-items: flex-start;
+  
+    .nav-links {
+      gap: 17px;
     }
-
-    .section-heading h2 {
-        font-size: 1.7rem;
+  
+    .post-grid,
+    .task-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
-}
+  
+    .feature-strip {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .hero-tagline {
+      display: none;
+    }
+  }
+  
+  
+  @media (max-width: 750px) {
+  
+    .nav-container {
+      flex-direction: column;
+  
+      padding: 20px;
+  
+      gap: 15px;
+    }
+  
+    .nav-links {
+      flex-wrap: wrap;
+  
+      justify-content: center;
+    }
+  
+    .nav-links a {
+      padding: 8px 0;
+    }
+  
+    .nav-links a.active::after {
+      bottom: 0;
+    }
+  
+    .hero-content {
+      padding: 60px 25px;
+    }
+  
+    .hero h1 {
+      font-size: 45px;
+    }
+  
+    .post-grid,
+    .task-grid,
+    .feature-strip {
+      grid-template-columns: 1fr;
+    }
+  
+    .latest-section,
+    .page,
+    .write-page,
+    .must-do-page,
+    .community-page {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+  
+    .section-header,
+    .blog-header {
+      align-items: flex-start;
+  
+      flex-direction: column;
+  
+      gap: 20px;
+    }
+  
+    .page-title,
+    .must-do-page h1,
+    .community-page h1 {
+      font-size: 40px;
+    }
+  
+    .feature {
+      border-right: none;
+  
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+  
+    .search-box {
+      width: 100%;
+    }
+  }
+  /* =========================================================
+   HELSINKI BACKGROUNDS — MIGRANT HUB
+   Different Helsinki image for every page
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   GLOBAL PAGE BACKGROUND
+   --------------------------------------------------------- */
+
+body {
+    margin: 0;
+    background: #f5f1eb;
+    color: #06243a;
+  }
+  
+  
+  /* ---------------------------------------------------------
+     HOME PAGE
+     Helsinki waterfront / city atmosphere
+     --------------------------------------------------------- */
+  
+  .hero {
+    position: relative;
+    min-height: 680px;
+  
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(3, 28, 46, 0.96) 0%,
+        rgba(3, 28, 46, 0.82) 38%,
+        rgba(3, 28, 46, 0.45) 68%,
+        rgba(3, 28, 46, 0.18) 100%
+      ),
+      url("https://images.unsplash.com/photo-1627139577893-7da08dec6996?auto=format&fit=crop&w=2200&q=85");
+  
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  
+  /* ---------------------------------------------------------
+     BLOG PAGE
+     Helsinki tram + Cathedral
+     --------------------------------------------------------- */
+  
+  .page:has(.blog-header) {
+    position: relative;
+  
+    background-image:
+      linear-gradient(
+        rgba(245, 241, 235, 0.86),
+        rgba(245, 241, 235, 0.94)
+      ),
+      url("https://images.unsplash.com/photo-1619542265704-e54e9b0456c5?auto=format&fit=crop&w=2200&q=85");
+  
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+  
+  
+  /* ---------------------------------------------------------
+     BLOG CARDS
+     --------------------------------------------------------- */
+  
+  .page:has(.blog-header) .post-card {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  
+    border: 1px solid rgba(6, 36, 58, 0.08);
+  
+    box-shadow:
+      0 15px 40px rgba(6, 36, 58, 0.10);
+  
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  
+  .page:has(.blog-header) .post-card:hover {
+    transform: translateY(-6px);
+  
+    box-shadow:
+      0 22px 50px rgba(6, 36, 58, 0.16);
+  }
+  
+  
+  /* ---------------------------------------------------------
+     WRITE POST PAGE
+     Helsinki waterfront / boats
+     --------------------------------------------------------- */
+  
+  .write-page {
+    position: relative;
+  
+    background-image:
+      linear-gradient(
+        rgba(245, 241, 235, 0.88),
+        rgba(245, 241, 235, 0.95)
+      ),
+      url("https://images.unsplash.com/photo-1509228270533-dabaaa2a9dde?auto=format&fit=crop&w=2200&q=85");
+  
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+  
+  
+  /* Write form */
+  
+  .write-page .write-form {
+    background: rgba(255, 255, 255, 0.94);
+  
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  
+    border: 1px solid rgba(6, 36, 58, 0.08);
+  
+    box-shadow:
+      0 20px 55px rgba(6, 36, 58, 0.12);
+  }
+  
+  
+  /* ---------------------------------------------------------
+     MUST DO PAGE
+     Suomenlinna fortress
+     --------------------------------------------------------- */
+  
+  .must-do-page {
+    position: relative;
+  
+    background-image:
+      linear-gradient(
+        rgba(245, 241, 235, 0.84),
+        rgba(245, 241, 235, 0.93)
+      ),
+      url("https://images.unsplash.com/photo-1718651571321-615fd041224d?auto=format&fit=crop&w=2200&q=85");
+  
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+  
+  
+  /* Must-do cards */
+  
+  .must-do-page .task-card {
+    background: rgba(255, 255, 255, 0.94);
+  
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  
+    border: 1px solid rgba(6, 36, 58, 0.08);
+  
+    box-shadow:
+      0 12px 35px rgba(6, 36, 58, 0.10);
+  
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  
+  .must-do-page .task-card:hover {
+    transform: translateY(-6px);
+  
+    box-shadow:
+      0 20px 45px rgba(6, 36, 58, 0.15);
+  }
+  
+  
+  /* ---------------------------------------------------------
+     COMMUNITY PAGE
+     Helsinki Market Square / harbour
+     --------------------------------------------------------- */
+  
+  .community-page {
+    position: relative;
+  
+    background-image:
+      linear-gradient(
+        rgba(3, 28, 46, 0.72),
+        rgba(3, 28, 46, 0.84)
+      ),
+      url("https://images.unsplash.com/photo-1699084408021-25fe4ce14170?auto=format&fit=crop&w=2200&q=85");
+  
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  
+    color: white;
+  }
+  
+  
+  /* Community heading */
+  
+  .community-page .page-title,
+  .community-page .community-description {
+    color: white;
+  }
+  
+  
+  /* Community post */
+  
+  .community-page .community-post {
+    background: rgba(255, 255, 255, 0.95);
+  
+    color: #06243a;
+  
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  
+    box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.20);
+  }
+  
+  
+  /* ---------------------------------------------------------
+     SEARCH PAGE
+     Helsinki Cathedral street
+     --------------------------------------------------------- */
+  
+  .search-page {
+    position: relative;
+  
+    background-image:
+      linear-gradient(
+        rgba(3, 28, 46, 0.72),
+        rgba(3, 28, 46, 0.82)
+      ),
+      url("https://images.unsplash.com/photo-1747659910715-fa03f28bf2a1?auto=format&fit=crop&w=2200&q=85");
+  
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  
+    color: white;
+  }
+  
+  
+  /* Search title */
+  
+  .search-page .page-title,
+  .search-page .page-description {
+    color: white;
+  }
+  
+  
+  /* Search box */
+  
+  .search-page .search-box {
+    background: rgba(255, 255, 255, 0.96);
+  
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  
+    box-shadow:
+      0 15px 45px rgba(0, 0, 0, 0.20);
+  }
+  
+  
+  /* ---------------------------------------------------------
+     LOGIN PAGE
+     Helsinki at night — Kalasatama
+     --------------------------------------------------------- */
+  
+     .login-page {
+        position: relative;
+      
+        background-image:
+          linear-gradient(
+            rgba(3, 20, 34, 0.72),
+            rgba(3, 20, 34, 0.88)
+          ),
+          url("https://images.unsplash.com/photo-1690487019546-9a77603cbbcb?auto=format&fit=crop&w=2200&q=85");
+      
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+      }
+  
+  
+  /* Login container */
+  
+  .login-page .login-container {
+    background: rgba(255, 255, 255, 0.95);
+  
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  
+    box-shadow:
+      0 25px 70px rgba(0, 0, 0, 0.28);
+  }
+  
+  
+  /* ---------------------------------------------------------
+     BLOG DETAILS
+     Helsinki old street / Cathedral
+     --------------------------------------------------------- */
+  
+  .page:has(.back-home):not(:has(.blog-header)) {
+    position: relative;
+  
+    background-image:
+      linear-gradient(
+        rgba(245, 241, 235, 0.87),
+        rgba(245, 241, 235, 0.94)
+      ),
+      url("https://images.unsplash.com/photo-1747659910715-fa03f28bf2a1?auto=format&fit=crop&w=2200&q=85");
+  
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+  
+  
+  /* ---------------------------------------------------------
+     COMMON GLASS EFFECT
+     --------------------------------------------------------- */
+  
+  .page-title,
+  .blog-header,
+  .write-heading {
+    position: relative;
+  }
+  
+  
+  /* ---------------------------------------------------------
+     FOOTER
+     --------------------------------------------------------- */
+  
+  .footer {
+    position: relative;
+    z-index: 2;
+  }
+  
+  
+  /* ---------------------------------------------------------
+     NAVBAR
+     --------------------------------------------------------- */
+  
+  .navbar {
+    position: relative;
+    z-index: 100;
+  
+    background: #06243a;
+  }
+  
+  
+  /* ---------------------------------------------------------
+     BUTTON STYLE
+     --------------------------------------------------------- */
+  
+  .join-button,
+  .publish-button,
+  .login-button {
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  
+  .join-button:hover,
+  .publish-button:hover,
+  .login-button:hover {
+    transform: translateY(-2px);
+  
+    box-shadow:
+      0 8px 20px rgba(217, 101, 33, 0.25);
+  }
+  
+  
+  /* ---------------------------------------------------------
+     MOBILE
+     --------------------------------------------------------- */
+  
+  @media (max-width: 768px) {
+  
+    .hero {
+      min-height: 600px;
+  
+      background-position:
+        65% center;
+    }
+  
+    .page:has(.blog-header),
+    .write-page,
+    .must-do-page,
+    .community-page,
+    .search-page,
+    .login-page,
+    .page:has(.back-home):not(:has(.blog-header)) {
+      background-attachment: scroll;
+    }
+  
+  }
+  
+  
+  /* ---------------------------------------------------------
+     SMALL MOBILE
+     --------------------------------------------------------- */
+  
+  @media (max-width: 480px) {
+  
+    .hero {
+      min-height: 620px;
+  
+      background-position:
+        60% center;
+    }
+  
+    .community-page,
+    .search-page,
+    .login-page {
+      background-position: center;
+    }
+  
+  }

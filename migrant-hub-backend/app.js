@@ -2,7 +2,6 @@ require("dotenv").config();
 const connectDB = require("./config/db");
 
 const express = require("express");
-const cors = require("cors");
 
 const morgan = require("morgan");
 
@@ -11,20 +10,13 @@ const errorHandler = require("./middleware/errorHandler");
 const app = express();
 connectDB();
 
-app.use(cors());
 app.use(express.json());
 
 app.use(morgan("dev"));
 
 const postRoutes = require("./routes/postRoutes");
-const mustDoRoutes = require("./routes/mustDoRoutes");
-const communityRoutes = require("./routes/communityRoutes");
-const authRoutes = require("./routes/authRoutes");
 
 app.use("/api/posts", postRoutes);
-app.use("/api/mustdo", mustDoRoutes);
-app.use("/api/communities", communityRoutes);
-app.use("/api/auth", authRoutes);
 
 const PORT = 4000;
 
