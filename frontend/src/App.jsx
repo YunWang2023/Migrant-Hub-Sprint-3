@@ -1,4 +1,7 @@
 import { Routes, Route, NavLink, Link } from "react-router-dom";
+import SearchPage from "./pages/Search";
+import BlogDetails from "./pages/BlogDetails";
+import MustDoPage from "./pages/MustDoPage";
 import "./App.css";
 
 /* =========================
@@ -35,9 +38,7 @@ function Navbar() {
             Community
           </NavLink>
 
-          <NavLink to="/search">
-            Search
-          </NavLink>
+
 
           <Link to="/login" className="login-button">
             Login
@@ -120,13 +121,13 @@ function Home() {
             </div>
 
             <div className="category-buttons">
-              <button>Housing</button>
-              <button>Paperwork</button>
-              <button>Transport</button>
-              <button>Food</button>
-              <button>Study</button>
-              <button>Community</button>
-              <button>Places</button>
+              <button onClick={() => (window.location.href = "/search?q=Housing")}>Housing</button>
+              <button onClick={() => (window.location.href = "/search?q=Paperwork")}>Paperwork</button>
+              <button onClick={() => (window.location.href = "/search?q=Transport")}>Transport</button>
+              <button onClick={() => (window.location.href = "/search?q=Food")}>Food</button>
+              <button onClick={() => (window.location.href = "/search?q=Study")}>Study</button>
+              <button onClick={() => (window.location.href = "/search?q=Community")}>Community</button>
+              <button onClick={() => (window.location.href = "/search?q=Places")}>Places</button>
             </div>
 
           </div>
@@ -237,6 +238,7 @@ function Home() {
           <div className="post-grid">
 
             <PostCard
+              id={1}
               category="Paperwork"
               title="How to Register Your Address in Finland"
               description="A simple guide to registering your address and getting started with everyday life in Finland."
@@ -244,6 +246,7 @@ function Home() {
             />
 
             <PostCard
+              id={2}
               category="Housing"
               title="Finding Affordable Housing in Helsinki"
               description="Learn some practical ways to search for student-friendly and affordable housing in Helsinki."
@@ -251,6 +254,7 @@ function Home() {
             />
 
             <PostCard
+              id={3}
               category="Transport"
               title="Getting Around Helsinki"
               description="Understand the easiest ways to use public transport and move around Helsinki."
@@ -274,6 +278,7 @@ function Home() {
 ========================= */
 
 function PostCard({
+  id,
   category,
   title,
   description,
@@ -361,6 +366,7 @@ function Blog() {
         <div className="post-grid">
 
           <PostCard
+            id={1}
             category="Paperwork"
             title="How to Register Your Address in Finland"
             description="A simple guide to registering your address and getting started with everyday life in Finland."
@@ -368,6 +374,7 @@ function Blog() {
           />
 
           <PostCard
+            id={2}
             category="Housing"
             title="Finding Affordable Housing in Helsinki"
             description="Learn some practical ways to search for student-friendly and affordable housing in Helsinki."
@@ -375,6 +382,7 @@ function Blog() {
           />
 
           <PostCard
+            id={3}
             category="Transport"
             title="Getting Around Helsinki"
             description="Understand the easiest ways to use public transport and move around Helsinki."
@@ -713,7 +721,7 @@ function App() {
 
       <Route
         path="/must-do"
-        element={<MustDo />}
+        element={<MustDoPage />}
       />
 
       <Route
@@ -723,7 +731,12 @@ function App() {
 
       <Route
         path="/search"
-        element={<Search />}
+        element={<SearchPage />}
+      />
+
+      <Route
+        path="/blog/:id"
+        element={<BlogDetails />}
       />
 
       <Route
