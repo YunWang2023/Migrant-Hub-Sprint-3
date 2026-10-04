@@ -7,6 +7,14 @@ const register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(409).json({
+        error: "Email already registered"
+      });
+    }
+
     const user = await User.create({
       name,
       email,
