@@ -56,7 +56,17 @@ const login = async (req, res, next) => {
   }
 };
 
+// GET CURRENT USER
+const getCurrentUser = async (req, res, next) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   register,
-  login
+  login,
+  getCurrentUser
 };
