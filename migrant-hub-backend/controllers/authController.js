@@ -32,6 +32,31 @@ const register = async (req, res, next) => {
   }
 };
 
+// LOGIN
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user || !(await user.checkPassword(password))) {
+      return res.status(401).json({
+        error: "Invalid email or password"
+      });
+    }
+
+    const token = createToken(user);
+
+    res.status(200).json({
+      user,
+      token
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
-  register
+  register,
+  login
 };
