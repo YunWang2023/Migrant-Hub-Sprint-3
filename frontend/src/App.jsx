@@ -6,6 +6,8 @@ import BlogDetails from "./pages/BlogDetails";
 import MustDoPage from "./pages/MustDoPage";
 import MustDoDetail from "./pages/MustDoDetail";
 import CommunityPage from "./pages/CommunityPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import "./App.css";
 import { useEffect } from "react";
 import useApi from "./hooks/useApi.js";
@@ -750,7 +752,7 @@ function App() {
       />
       <Route
         path="/community"
-        element={<Community />}
+        element={<CommunityPage />}
       />
 
       <Route
@@ -765,16 +767,22 @@ function App() {
 
       <Route
         path="/login"
-        element={<Login />}
+        element={<LoginPage />}
       />
 
       <Route
-       path="/must-do/:slug" 
-       element={<MustDoDetail />} 
+        path="/register"
+        element={<RegisterPage />}
       />
+
       <Route
-       path="/community" 
-       element={<CommunityPage />} 
+        path="/must-do"
+        element={<MustDoPage />}
+      />
+
+      <Route
+        path="/must-do/:slug"
+        element={<MustDoDetail />}
       />
 
     </Routes>

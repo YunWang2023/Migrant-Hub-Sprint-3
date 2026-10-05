@@ -1,25 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { themeFor } from "../data/mustDoTheme";
+import useApi from "../hooks/useApi.js";
 import "../styles/mustdo.css";
 
 export default function MustDoPage() {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, loading, error, request } = useApi();
+  const items = data ?? [];
 
   useEffect(() => {
-    fetch("/api/mustdo")
-      .then((res) => {
-        if (!res.ok) throw new Error("Could not load the Must Do list.");
-        return res.json();
-      })
-      .then(setItems)
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
+    request("/mustdo").catch(() => {});
+  }, [request]);
 
   return (
     <>

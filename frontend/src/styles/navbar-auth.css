@@ -1,0 +1,20 @@
+/* Logged-in state in the shared navbar */
+.nav-user {
+  color: #f4eee7;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+button.login-nav-button {
+  border: none;
+  background: #ffffff;
+  color: #d35e1b;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button.login-nav-button:hover {
+  background: #f4eee7;
+}

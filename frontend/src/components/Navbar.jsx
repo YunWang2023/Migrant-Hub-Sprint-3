@@ -1,6 +1,16 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx";
+import "../styles/navbar-auth.css";
 
 function Navbar() {
+    const { user, isAuthenticated, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/");
+    };
+
     return (
         <header className="site-header">
             <nav className="navbar">
@@ -35,9 +45,24 @@ function Navbar() {
                         Search
                     </NavLink>
 
-                    <NavLink to="/login" className="login-nav-button">
-                        Login
-                    </NavLink>
+                    {isAuthenticated ? (
+                        <>
+                            <span className="nav-user">
+                                Hi, {user?.name || user?.email}
+                            </span>
+                            <button
+                                type="button"
+                                className="login-nav-button"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <NavLink to="/login" className="login-nav-button">
+                            Login
+                        </NavLink>
+                    )}
 
                 </div>
 

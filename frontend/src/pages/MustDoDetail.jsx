@@ -1,27 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { themeFor } from "../data/mustDoTheme";
+import useApi from "../hooks/useApi.js";
 import "../styles/mustdo.css";
 
 export default function MustDoDetail() {
   const { slug } = useParams();
-  const [item, setItem] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: item, loading, error, request } = useApi();
 
   useEffect(() => {
-    fetch(`/api/mustdo/${slug}`)
-      .then((res) => {
-        if (res.status === 404) throw new Error("This Must Do item does not exist.");
-        if (!res.ok) throw new Error("Could not load this item.");
-        return res.json();
-      })
-      .then(setItem)
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [slug]);
+    request(`/mustdo/${slug}`).catch(() => {});
+  }, [request, slug]);
 
   const theme = themeFor(slug);
 
@@ -35,7 +26,11 @@ export default function MustDoDetail() {
         <Link to="/must-do" className="md-back">← Back to checklist</Link>
 
         {loading && <p role="status" className="md-status">Loading…</p>}
-        {error && <p role="alert" className="md-error">{error}</p>}
+        {error && (
+          <p role="alert" className="md-error">
+            {error === "Not found" ? "This Must Do item does not exist." : error}
+          </p>
+        )}
 
         {item && (
           <article className="md-detail">
