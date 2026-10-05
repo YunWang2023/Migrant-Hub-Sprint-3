@@ -2,6 +2,8 @@ import { Routes, Route, NavLink, Link } from "react-router-dom";
 import SearchPage from "./pages/Search";
 import BlogDetails from "./pages/BlogDetails";
 import MustDoPage from "./pages/MustDoPage";
+import MustDoDetail from "./pages/MustDoDetail";
+import CommunityPage from "./pages/CommunityPage";
 import "./App.css";
 
 /* =========================
@@ -742,6 +744,15 @@ function App() {
       <Route
         path="/login"
         element={<Login />}
+      />
+
+      <Route
+       path="/must-do/:slug" 
+       element={<MustDoDetail />} 
+      />
+      <Route
+       path="/community" 
+       element={<CommunityPage />} 
       />
 
     </Routes>

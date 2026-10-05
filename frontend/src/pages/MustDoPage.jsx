@@ -1,58 +1,68 @@
-import React, { useState } from 'react';
-import { mustDoItems } from '../data/mustDoData';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { themeFor } from "../data/mustDoTheme";
+import "../styles/mustdo.css";
 
 export default function MustDoPage() {
-  const [selectedId, setSelectedId] = useState(null);
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const selectedItem = mustDoItems.find(item => item.id === selectedId);
+  useEffect(() => {
+    fetch("/api/mustdo")
+      .then((res) => {
+        if (!res.ok) throw new Error("Could not load the Must Do list.");
+        return res.json();
+      })
+      .then(setItems)
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1000px', margin: '0 auto' }}>
-      <h1>Must Do Checklist</h1>
+    <>
+      <Navbar />
+      <main className="must-do-page">
+        <p className="md-eyebrow">Your first weeks in Finland</p>
+        <h1>Must Do Checklist</h1>
+        <p className="md-intro">
+          Six things almost every newcomer has to sort out. Do them roughly in
+          this order: each step makes the next one easier.
+        </p>
 
-      {!selectedItem ? (
-        // OVERVIEW GRID (6 Cards)
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
-          {mustDoItems.map(item => (
-            <div 
-              key={item.id} 
-              style={{ border: '1fr solid #ccc', padding: '1.5rem', borderRadius: '8px', cursor: 'pointer', background: '#fff' }}
-              onClick={() => setSelectedId(item.id)}
-            >
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-              <button style={{ padding: '0.5rem 1rem', background: '#A6551F', color: '#fff', border: 'none', borderRadius: '4px' }}>
-                View Details
-              </button>
-            </div>
-          ))}
-        </div>
-      ) : (
-        // SINGLE DETAIL VIEW
-        <div style={{ border: '1px solid #ccc', padding: '2rem', borderRadius: '8px', background: '#fff' }}>
-          <button onClick={() => setSelectedId(null)} style={{ marginBottom: '1rem' }}>
-            ← Back to Overview
-          </button>
-          <h2>{selectedItem.title}</h2>
-          <p><strong>Description:</strong> {selectedItem.description}</p>
-          <p><strong>Who Needs It:</strong> {selectedItem.whoNeedsIt}</p>
-          <p><strong>Time Needed:</strong> {selectedItem.timeNeeded}</p>
-          
-          <h3>Required Documents:</h3>
-          <ul>
-            {selectedItem.documents.map((doc, idx) => (
-              <li key={idx}>{doc}</li>
-            ))}
-          </ul>
+        {loading && <p role="status" className="md-status">Loading…</p>}
+        {error && <p role="alert" className="md-error">{error}</p>}
 
-          <p>
-            <a href={selectedItem.officialLink} target="_blank" rel="noreferrer">
-              Visit Official Website
-            </a>
-          </p>
-          <small>Information last checked on: {selectedItem.checkedDate}</small>
-        </div>
-      )}
-    </div>
+        <ol className="md-grid">
+          {items.map((item, index) => {
+            const theme = themeFor(item.slug);
+            return (
+              <li
+                key={item.id}
+                className="md-card"
+                style={{ "--accent": theme.color, "--tint": theme.tint }}
+              >
+                <div className="md-card-top">
+                  <span className="md-icon" aria-hidden="true">{theme.icon}</span>
+                  <span className="md-step">Step {item.order ?? index + 1}</span>
+                </div>
+                <h2>{item.title}</h2>
+                <p>{item.summary}</p>
+                <Link
+                  to={`/must-do/${item.slug}`}
+                  className="md-button"
+                  aria-label={`View details: ${item.title}`}
+                >
+                  View details <span aria-hidden="true">→</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ol>
+      </main>
+      <Footer />
+    </>
   );
 }
