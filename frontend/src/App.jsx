@@ -1,3 +1,5 @@
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useAuth } from "./context/AuthContext.jsx";
 import { Routes, Route, NavLink, Link } from "react-router-dom";
 import SearchPage from "./pages/Search";
 import BlogDetails from "./pages/BlogDetails";
@@ -5,12 +7,12 @@ import MustDoPage from "./pages/MustDoPage";
 import MustDoDetail from "./pages/MustDoDetail";
 import CommunityPage from "./pages/CommunityPage";
 import "./App.css";
-
-/* =========================
-   NAVBAR
-========================= */
+import { useEffect } from "react";
+import useApi from "./hooks/useApi.js";
 
 function Navbar() {
+  const { user, isAuthenticated, logout } = useAuth();
+
   return (
     <nav className="navbar">
       <div className="nav-container">
@@ -40,11 +42,27 @@ function Navbar() {
             Community
           </NavLink>
 
+          {isAuthenticated ? (
+            <>
+              <span className="user-name">
+                {user?.displayName || user?.name || user?.email}
+              </span>
+
+              <button
+                type="button"
+                className="login-button"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className="login-button">
+              Login
+            </Link>
+          )}
 
 
-          <Link to="/login" className="login-button">
-            Login
-          </Link>
         </div>
 
       </div>
@@ -82,6 +100,17 @@ function Footer() {
 ========================= */
 
 function Home() {
+  const {
+    data: posts,
+    loading,
+    error,
+    request
+  } = useApi();
+
+  useEffect(() => {
+    request("/posts").catch(() => { });
+  }, [request]);
+
   return (
     <>
       <Navbar />
@@ -239,29 +268,24 @@ function Home() {
 
           <div className="post-grid">
 
-            <PostCard
-              id={1}
-              category="Paperwork"
-              title="How to Register Your Address in Finland"
-              description="A simple guide to registering your address and getting started with everyday life in Finland."
-              tags="FinlandRegistrationGuide"
-            />
+            {loading && <p>Loading posts...</p>}
 
-            <PostCard
-              id={2}
-              category="Housing"
-              title="Finding Affordable Housing in Helsinki"
-              description="Learn some practical ways to search for student-friendly and affordable housing in Helsinki."
-              tags="HousingHelsinkiStudents"
-            />
+            {error && <p>Failed to load posts: {error}</p>}
 
-            <PostCard
-              id={3}
-              category="Transport"
-              title="Getting Around Helsinki"
-              description="Understand the easiest ways to use public transport and move around Helsinki."
-              tags="TransportHSLHelsinki"
-            />
+            {!loading && !error && posts?.length === 0 && (
+              <p>No posts available yet.</p>
+            )}
+
+            {posts?.slice(0, 3).map((post) => (
+              <PostCard
+                key={post._id || post.id}
+                id={post._id || post.id}
+                category={post.category}
+                title={post.title}
+                description={post.description || post.content}
+                tags={post.tags}
+              />
+            ))}
 
           </div>
 
@@ -718,14 +742,12 @@ function App() {
 
       <Route
         path="/write-post"
-        element={<WritePost />}
+        element={
+          <ProtectedRoute>
+            <WritePost />
+          </ProtectedRoute>
+        }
       />
-
-      <Route
-        path="/must-do"
-        element={<MustDoPage />}
-      />
-
       <Route
         path="/community"
         element={<Community />}
