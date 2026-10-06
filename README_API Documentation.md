@@ -1,4 +1,4 @@
-# Migrant Hub - Sprint 3
+# Migrant Hub – API Documentation
 
 Migrant Hub is a web application designed to help newcomers in Finland find useful information about everyday life, services, communities, and practical tasks.
 
@@ -353,3 +353,17 @@ The API was tested using Postman.
 - Delete Post - Valid Token
 
 The Postman environment uses a `token` variable for authenticated requests.
+
+# API Summary
+
+| Method | Endpoint | Authentication |
+|---|---|---|
+| POST | `/auth/register` | Public |
+| POST | `/auth/login` | Public |
+| GET | `/auth/me` | Required |
+| POST | `/auth/logout` | Required |
+| GET | `/posts` | Public |
+| GET | `/posts/:id` | Public |
+| POST | `/posts` | Required |
+| PATCH | `/posts/:id` | Required |
+| DELETE | `/posts/:id` | Required |
