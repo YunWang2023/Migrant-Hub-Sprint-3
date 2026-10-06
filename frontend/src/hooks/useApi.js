@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = "http://localhost:4000/api";
 
 function useApi() {
     const { token } = useAuth();
@@ -33,7 +33,10 @@ function useApi() {
 
                 try {
                     const errorData = await response.json();
-                    message = errorData.error || errorData.message || message;
+                    message =
+                        errorData.error ||
+                        errorData.message ||
+                        message;
                 } catch {
                     // Response did not contain JSON
                 }

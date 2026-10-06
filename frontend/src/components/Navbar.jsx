@@ -41,9 +41,6 @@ function Navbar() {
                         Community
                     </NavLink>
 
-                    <NavLink to="/search">
-                        Search
-                    </NavLink>
 
                     {isAuthenticated ? (
                         <>
