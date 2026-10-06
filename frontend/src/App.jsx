@@ -8,7 +8,7 @@ import CommunityPage from "./pages/CommunityPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useApi from "./hooks/useApi.js";
 import posts from "./data/postsData";
 
@@ -681,24 +681,55 @@ function Community() {
 function Search() {
   const query = new URLSearchParams(window.location.search)
     .get("q")
-    ?.trim()
-    .toLowerCase() || "";
+    ?.trim() || "";
 
-  const results = posts.filter((post) => {
-    const text = [
-      post.title,
-      post.author,
-      post.category,
-      post.aiTeaser,
-      post.content,
-      ...(post.tags || [])
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-    return text.includes(query);
-  });
+  useEffect(() => {
+    if (!query) {
+      setResults([]);
+      return;
+    }
+
+    const searchPosts = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const categories = [
+          "Housing",
+          "Paperwork",
+          "Transport",
+          "Food",
+          "Study",
+          "Community",
+          "Places",
+        ];
+
+        const isCategory = categories.includes(query);
+        const endpoint = isCategory
+          ? `http://localhost:4000/api/posts?category=${encodeURIComponent(query)}`
+          : `http://localhost:4000/api/posts?search=${encodeURIComponent(query)}`;
+
+        const response = await fetch(endpoint);
+
+        if (!response.ok) {
+          throw new Error("Failed to search posts.");
+        }
+
+        const data = await response.json();
+        setResults(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    searchPosts();
+  }, [query]);
 
   return (
     <>
@@ -712,6 +743,10 @@ function Search() {
 
           {!query ? (
             <p>Enter something in the search bar.</p>
+          ) : loading ? (
+            <p>Searching...</p>
+          ) : error ? (
+            <p className="auth-error">{error}</p>
           ) : results.length === 0 ? (
             <p>No posts found for "{query}".</p>
           ) : (
@@ -728,17 +763,7 @@ function Search() {
                     By {post.author}
                   </div>
 
-                  <p>
-                    {post.aiTeaser || post.content}
-                  </p>
-
-                  <div className="post-tags">
-                    {(post.tags || []).map((tag) => (
-                      <span className="post-card-tag" key={tag}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  <p>{post.aiTeaser || post.body}</p>
 
                   <Link
                     to={`/blog/${post.id}`}

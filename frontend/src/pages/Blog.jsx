@@ -1,8 +1,25 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import posts from "../data/postsData";
 import PostCard from "../components/PostCard";
+import useApi from "../hooks/useApi.js";
 
 function Blog() {
+    const [posts, setPosts] = useState([]);
+    const { loading, error, request } = useApi();
+
+    useEffect(() => {
+        const loadPosts = async () => {
+            try {
+                const result = await request("/posts");
+                setPosts(result || []);
+            } catch {
+                // Error is displayed below.
+            }
+        };
+
+        loadPosts();
+    }, [request]);
+
     return (
         <main className="blog-page">
             <section className="blog-header">
@@ -31,11 +48,25 @@ function Blog() {
                         </Link>
                     </div>
 
-                    <div className="blog-posts-grid">
-                        {posts.map((post) => (
-                            <PostCard key={post.id} post={post} />
-                        ))}
-                    </div>
+                    {loading && <p>Loading posts...</p>}
+
+                    {error && (
+                        <p className="auth-error" role="alert">
+                            {error}
+                        </p>
+                    )}
+
+                    {!loading && !error && posts.length === 0 && (
+                        <p>No posts have been published yet.</p>
+                    )}
+
+                    {!loading && !error && posts.length > 0 && (
+                        <div className="blog-posts-grid">
+                            {posts.map((post) => (
+                                <PostCard key={post.id} post={post} />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
         </main>

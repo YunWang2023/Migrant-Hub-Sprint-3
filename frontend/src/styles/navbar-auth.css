@@ -52,10 +52,6 @@
 }
 
 .site-header .nav-links a:hover,
-.site-header .nav-links a.active {
-  color: #e8751a;
-  border-bottom-color: #e8751a;
-}
 
 .site-header .nav-links a.login-nav-button {
   background: #ffffff;
@@ -119,4 +115,75 @@
   .site-header .nav-links a {
     font-size: 14px;
   }
+}
+
+/* Active navigation link - underline below text */
+.site-header .nav-links a.active:not(.login-nav-button) {
+  color: #e8751a;
+  border-bottom: 2px solid #e8751a;
+  padding-bottom: 8px;
+}
+
+/* Login button should never have an underline */
+.site-header .nav-links a.login-nav-button {
+  border-bottom: none !important;
+  text-decoration: none !important;
+}
+
+/* Footer uses the same navy as the navbar */
+.site-footer {
+  background: #06263b !important;
+  color: #ffffff;
+}
+
+/* Shared footer - same layout on every page */
+.site-footer {
+  width: 100%;
+  background: #06263b !important;
+  color: #ffffff;
+  box-sizing: border-box;
+  padding: 48px 7.5%;
+}
+
+.site-footer .footer-content {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.site-footer h3 {
+  margin: 0 0 16px;
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.site-footer p {
+  margin: 0 0 18px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.site-footer .copyright {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* No active underline on Must Do, Community, Sign up, or Login */
+.site-header .nav-links a[href="/must-do"].active,
+.site-header .nav-links a[href="/community"].active,
+.site-header .nav-links a[href="/register"].active,
+.site-header .nav-links a[href="/login"].active {
+  border-bottom: none !important;
+  text-decoration: none !important;
+}
+
+.site-header .nav-links a[href="/must-do"].active::after,
+.site-header .nav-links a[href="/community"].active::after,
+.site-header .nav-links a[href="/register"].active::after,
+.site-header .nav-links a[href="/login"].active::after {
+  display: none !important;
+  content: none !important;
 }
