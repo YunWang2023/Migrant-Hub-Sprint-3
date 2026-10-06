@@ -37,9 +37,10 @@ async function enrichPost({ title, body }) {
     let response;
 
     for (let attempt = 1; attempt <= 2; attempt++) {
-      // give up after 30 seconds so publishing is never blocked
+      // Give up after 15 seconds. With one retry the writer waits at
+      // most about half a minute before the page says the AI is busy.
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000);
+      const timeout = setTimeout(() => controller.abort(), 15000);
 
       response = await fetch(URL, {
         method: "POST",
@@ -61,12 +62,19 @@ async function enrichPost({ title, body }) {
       // only retry when the service is busy, not on a bad key or model
       if (response.status !== 503 && response.status !== 429) break;
 
-      console.log(`Gemini returned ${response.status}, retrying`);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.log(`Gemini returned ${response.status}, retrying once`);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
 
     if (!response.ok) {
-      console.log("Gemini request failed:", response.status);
+      // The status alone is not enough: Google explains a retired model
+      // or a rejected key only in the response body.
+      const detail = await response.text().catch(() => "");
+      console.log(
+        "Gemini request failed:",
+        response.status,
+        detail.slice(0, 300)
+      );
       return null;
     }
 

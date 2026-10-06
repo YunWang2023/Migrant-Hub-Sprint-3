@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext.jsx";
 import useApi from "../hooks/useApi.js";
 import "../styles/auth.css";
@@ -34,7 +32,6 @@ export default function LoginPage() {
 
   return (
     <>
-      <Navbar />
       <main className="auth-page">
         <section className="auth-card" aria-labelledby="login-title">
           <div className="auth-badge" aria-hidden="true">👋</div>
@@ -94,7 +91,6 @@ export default function LoginPage() {
           </p>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

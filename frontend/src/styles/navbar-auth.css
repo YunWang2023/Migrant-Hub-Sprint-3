@@ -117,11 +117,17 @@
   }
 }
 
-/* Active navigation link - underline below text */
+/* Active navigation link - orange text, no underline.
+   The underline used to be switched off per URL further down this
+   file, which left Home, Blog and Write a Post underlined while
+   Must Do and Community were not. */
 .site-header .nav-links a.active:not(.login-nav-button) {
   color: #e8751a;
-  border-bottom: 2px solid #e8751a;
-  padding-bottom: 8px;
+}
+
+/* global.css draws a second underline with ::after. */
+.site-header .nav-links a.active::after {
+  content: none;
 }
 
 /* Login button should never have an underline */
@@ -169,21 +175,4 @@
 .site-footer .copyright {
   margin: 0;
   color: rgba(255, 255, 255, 0.9);
-}
-
-/* No active underline on Must Do, Community, Sign up, or Login */
-.site-header .nav-links a[href="/must-do"].active,
-.site-header .nav-links a[href="/community"].active,
-.site-header .nav-links a[href="/register"].active,
-.site-header .nav-links a[href="/login"].active {
-  border-bottom: none !important;
-  text-decoration: none !important;
-}
-
-.site-header .nav-links a[href="/must-do"].active::after,
-.site-header .nav-links a[href="/community"].active::after,
-.site-header .nav-links a[href="/register"].active::after,
-.site-header .nav-links a[href="/login"].active::after {
-  display: none !important;
-  content: none !important;
 }

@@ -1,45 +1,24 @@
-import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+
+import useApi from "../hooks/useApi.js";
 
 function BlogDetails() {
     const { id } = useParams();
 
     const [post, setPost] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const { loading, error, request } = useApi();
 
     useEffect(() => {
-        const loadPost = async () => {
-            try {
-                setLoading(true);
-                setError("");
-
-                const response = await fetch(
-                    `http://localhost:4000/api/posts/${id}`
-                );
-
-                if (!response.ok) {
-                    throw new Error("Post not found");
-                }
-
-                const data = await response.json();
-                setPost(data);
-            } catch (err) {
-                setError(err.message || "Failed to load post.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadPost();
-    }, [id]);
+        request(`/posts/${id}`)
+            .then((result) => setPost(result))
+            .catch(() => setPost(null));
+    }, [id, request]);
 
     if (loading) {
         return (
             <main className="blog-details-page">
-                <div className="section-container">
-                    <h1>Loading post...</h1>
-                </div>
+                <h1>Loading post…</h1>
             </main>
         );
     }
@@ -47,31 +26,36 @@ function BlogDetails() {
     if (error || !post) {
         return (
             <main className="blog-details-page">
-                <div className="section-container">
-                    <h1>Post not found</h1>
 
-                    <Link to="/blog" className="view-all-link">
-                        ← Back to blog
-                    </Link>
-                </div>
+                <h1>Post not found</h1>
+
+                <p>{error === "Not found" ? "This post does not exist." : error}</p>
+
+                <Link to="/blog" className="view-all-link">
+                    ← Back to blog
+                </Link>
+
             </main>
         );
     }
 
+    const tags = Array.isArray(post.tags) ? post.tags : [];
+
     return (
         <main className="blog-details-page">
-            <article className="section-container blog-details">
+            <article className="blog-details">
+
                 <p className="section-label">{post.category}</p>
 
                 <h1>{post.title}</h1>
 
                 <p className="blog-details-author">
-                    By {post.author}
+                    By {post.author || "Migrant Hub user"}
                 </p>
 
-                {post.tags?.length > 0 && (
+                {tags.length > 0 && (
                     <div className="blog-details-tags">
-                        {post.tags.map((tag) => (
+                        {tags.map((tag) => (
                             <span key={tag} className="post-card-tag">
                                 {tag}
                             </span>
@@ -86,6 +70,7 @@ function BlogDetails() {
                 <Link to="/blog" className="view-all-link">
                     ← Back to blog
                 </Link>
+
             </article>
         </main>
     );

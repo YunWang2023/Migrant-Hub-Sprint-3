@@ -1,31 +1,25 @@
 const express = require("express");
-
 const router = express.Router();
 
-const validatePost = require("../middleware/validatePost");
 const requireAuth = require("../middleware/requireAuth");
-
+const validatePost = require("../middleware/validatePost");
 const {
   getAllPosts,
   getPostById,
-  generatePostSuggestions,
   createPost,
   updatePost,
-  deletePost
+  deletePost,
+  generatePostSuggestions,
 } = require("../controllers/postController");
 
-router.get("/", getAllPosts);
-
-// Generate AI suggestions without saving the post
 router.post("/enrich", requireAuth, generatePostSuggestions);
 
-// Get one post
+router.get("/", getAllPosts);
 router.get("/:id", getPostById);
 
-// Save the final post
 router.post("/", requireAuth, validatePost, createPost);
 
-router.patch("/:id", requireAuth, validatePost, updatePost);
+router.patch("/:id", requireAuth, updatePost);
 
 router.delete("/:id", requireAuth, deletePost);
 

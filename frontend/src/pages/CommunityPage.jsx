@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import useApi from "../hooks/useApi.js";
 import "../styles/community.css";
 
@@ -29,7 +27,6 @@ export default function CommunityPage() {
 
   return (
     <>
-      <Navbar />
       <main className="community-page">
         <p className="cm-eyebrow">Find your people</p>
         <h1>Communities</h1>
@@ -60,7 +57,7 @@ export default function CommunityPage() {
           <section className="cm-panel" aria-labelledby="cm-title">
             <header className="cm-header">
               <div className="cm-avatar" aria-hidden="true">
-                {selected.name.charAt(0)}
+                {selected.name?.charAt(0)}
               </div>
               <div>
                 <h2 id="cm-title">{selected.name}</h2>
@@ -86,7 +83,7 @@ export default function CommunityPage() {
                   <h4>
                     <Link to={`/blog/${post.id}`}>{post.title}</Link>
                   </h4>
-                  <p>{post.aiTeaser || `${post.body.slice(0, 160)}…`}</p>
+                  <p>{post.aiTeaser || `${(post.body ?? "").slice(0, 160)}…`}</p>
                   <small>By {post.author?.name ?? post.author}</small>
                   <Link to={`/blog/${post.id}`} className="cm-post-link">
                     Read more →
@@ -97,7 +94,6 @@ export default function CommunityPage() {
           </section>
         )}
       </main>
-      <Footer />
     </>
   );
 }

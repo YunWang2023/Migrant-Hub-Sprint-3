@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import PostCard from "../components/PostCard";
 import useApi from "../hooks/useApi.js";
 
@@ -8,67 +9,63 @@ function Blog() {
     const { loading, error, request } = useApi();
 
     useEffect(() => {
-        const loadPosts = async () => {
-            try {
-                const result = await request("/posts");
-                setPosts(result || []);
-            } catch {
-                // Error is displayed below.
-            }
-        };
-
-        loadPosts();
+        request("/posts")
+            .then((result) => setPosts(result || []))
+            .catch(() => {
+                // The error message is rendered below.
+            });
     }, [request]);
 
     return (
-        <main className="blog-page">
-            <section className="blog-header">
-                <div className="section-container">
-                    <p className="section-label">MIGRANT HUB BLOG</p>
+        <main className="page">
 
-                    <h1>Stories, guides and experiences</h1>
+            <h1 className="page-title">
+                Stories, guides and experiences
+            </h1>
 
-                    <p>
-                        Discover practical information and experiences shared
-                        by people building their lives in Finland.
-                    </p>
-                </div>
-            </section>
+            <p className="page-description">
+                Discover practical information and experiences shared by people
+                building their lives in Finland.
+            </p>
 
-            <section className="blog-list-section">
-                <div className="section-container">
-                    <div className="section-heading">
-                        <div>
-                            <p className="section-label">LATEST POSTS</p>
-                            <h2>Explore the community</h2>
-                        </div>
+            <div className="blog-header">
 
-                        <Link to="/" className="view-all-link">
-                            ← Back home
-                        </Link>
+                <div>
+                    <div className="eyebrow dark">
+                        LATEST POSTS
                     </div>
 
-                    {loading && <p>Loading posts...</p>}
-
-                    {error && (
-                        <p className="auth-error" role="alert">
-                            {error}
-                        </p>
-                    )}
-
-                    {!loading && !error && posts.length === 0 && (
-                        <p>No posts have been published yet.</p>
-                    )}
-
-                    {!loading && !error && posts.length > 0 && (
-                        <div className="blog-posts-grid">
-                            {posts.map((post) => (
-                                <PostCard key={post.id} post={post} />
-                            ))}
-                        </div>
-                    )}
+                    <h2>
+                        Explore the community
+                    </h2>
                 </div>
-            </section>
+
+                <Link to="/" className="back-home">
+                    ← Back home
+                </Link>
+
+            </div>
+
+            {loading && <p>Loading posts…</p>}
+
+            {error && (
+                <p className="auth-error" role="alert">
+                    {error}
+                </p>
+            )}
+
+            {!loading && !error && posts.length === 0 && (
+                <p>No posts have been published yet.</p>
+            )}
+
+            {!loading && !error && posts.length > 0 && (
+                <div className="post-grid">
+                    {posts.map((post) => (
+                        <PostCard key={post.id ?? post._id} post={post} />
+                    ))}
+                </div>
+            )}
+
         </main>
     );
 }

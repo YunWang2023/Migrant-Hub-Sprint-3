@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext.jsx";
 import useApi from "../hooks/useApi.js";
 import "../styles/auth.css";
@@ -70,7 +68,6 @@ export default function RegisterPage() {
 
   return (
     <>
-      <Navbar />
 
       <main className="auth-page">
         <section className="auth-card" aria-labelledby="register-title">
@@ -94,7 +91,7 @@ export default function RegisterPage() {
             <label htmlFor="register-first-name">First name</label>
             <input
               id="register-first-name"
-              type="email"
+              type="text"
               autoComplete="given-name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
@@ -104,7 +101,7 @@ export default function RegisterPage() {
             <label htmlFor="register-last-name">Last name</label>
             <input
               id="register-last-name"
-              type="email"
+              type="text"
               autoComplete="family-name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
@@ -178,7 +175,6 @@ export default function RegisterPage() {
         </section>
       </main>
 
-      <Footer />
     </>
   );
 }

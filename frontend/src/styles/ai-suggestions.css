@@ -1,0 +1,97 @@
+/* AI suggestion panel on the Write a Post page. */
+
+.ai-panel {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 1px solid #d8d2c8;
+    border-left: 4px solid #1f5f99;
+    border-radius: 10px;
+    background: #f7f5f1;
+}
+
+.ai-panel-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ai-panel-head h3 {
+    margin: 0;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+}
+
+.ai-panel p {
+    margin: 0.5rem 0 0;
+    font-size: 0.9rem;
+    color: #4a4a44;
+}
+
+.ai-button {
+    padding: 0.55rem 1.1rem;
+    border: 1px solid #1f5f99;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #1f5f99;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.ai-button:hover:not(:disabled) {
+    background: #1f5f99;
+    color: #ffffff;
+}
+
+.ai-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.ai-note {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+}
+
+.ai-note-warn {
+    color: #8a4b12;
+}
+
+.ai-teaser {
+    margin-top: 0.9rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid #e3ded5;
+    font-style: italic;
+}
+
+.ai-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+}
+
+.ai-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: #e3eef8;
+    color: #1f5f99;
+    font-size: 0.8rem;
+}
+
+.ai-tag button {
+    border: none;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1;
+    padding: 0;
+}

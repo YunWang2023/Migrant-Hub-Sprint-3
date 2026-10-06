@@ -199,3 +199,43 @@
 .cm-post-link:hover {
   text-decoration: underline;
 }
+
+/* ---------------------------------------------------------
+   TEXT COLOURS
+
+   global.css sets `.community-page { color: white }` for the dark
+   photo background. Everything inside the white panel inherits that
+   and becomes invisible, so each part states its own colour: light
+   above the panel, dark inside it.
+   --------------------------------------------------------- */
+
+/* On the dark background */
+.community-page .cm-eyebrow {
+  color: #f6a570;
+}
+
+.community-page .cm-intro {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Inside the white panel */
+.community-page .cm-header h2,
+.community-page .cm-posts-title,
+.community-page .cm-post h4,
+.community-page .cm-post h4 a {
+  color: #172b42;
+}
+
+.community-page .cm-post h4 a {
+  text-decoration: none;
+}
+
+.community-page .cm-header p,
+.community-page .cm-members,
+.community-page .cm-empty {
+  color: #45586b;
+}
+
+.community-page .cm-members strong {
+  color: #172b42;
+}

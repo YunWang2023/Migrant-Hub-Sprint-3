@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import { themeFor } from "../data/mustDoTheme";
 import useApi from "../hooks/useApi.js";
 import "../styles/mustdo.css";
@@ -18,7 +16,6 @@ export default function MustDoDetail() {
 
   return (
     <>
-      <Navbar />
       <main
         className="must-do-page"
         style={{ "--accent": theme.color, "--tint": theme.tint }}
@@ -57,7 +54,7 @@ export default function MustDoDetail() {
               <section className="md-section">
                 <h2>Documents you need</h2>
                 <ul className="md-docs">
-                  {item.documents.map((doc) => <li key={doc}>{doc}</li>)}
+                  {(item.documents ?? []).map((doc) => <li key={doc}>{doc}</li>)}
                 </ul>
               </section>
 
@@ -83,7 +80,6 @@ export default function MustDoDetail() {
           </article>
         )}
       </main>
-      <Footer />
     </>
   );
 }

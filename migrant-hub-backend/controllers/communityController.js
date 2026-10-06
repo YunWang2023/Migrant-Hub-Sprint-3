@@ -1,6 +1,16 @@
 const Community = require("../models/communityModel");
+const Post = require("../models/postModel");
 
-// GET all communities
+function pickCommunityFields(body) {
+  const allowed = {};
+
+  if (body.name !== undefined) allowed.name = body.name;
+  if (body.description !== undefined) allowed.description = body.description;
+  if (body.memberCount !== undefined) allowed.memberCount = body.memberCount;
+
+  return allowed;
+}
+
 const getAllCommunities = async (req, res, next) => {
   try {
     const communities = await Community.find().sort({ name: 1 });
@@ -10,7 +20,6 @@ const getAllCommunities = async (req, res, next) => {
   }
 };
 
-// GET one community by id
 const getCommunityById = async (req, res, next) => {
   try {
     const community = await Community.findById(req.params.id);
@@ -25,20 +34,17 @@ const getCommunityById = async (req, res, next) => {
   }
 };
 
-// GET posts belonging to a community
 const getCommunityPosts = async (req, res, next) => {
   try {
-    const Post = require("../models/postModel");
-
     const community = await Community.findById(req.params.id);
 
     if (!community) {
       return res.status(404).json({ error: "Not found" });
     }
 
-    const posts = await Post.find({
-      communityId: req.params.id
-    }).sort({ createdAt: -1 });
+    const posts = await Post.find({ communityId: req.params.id }).sort({
+      createdAt: -1,
+    });
 
     res.status(200).json(posts);
   } catch (error) {
@@ -46,26 +52,21 @@ const getCommunityPosts = async (req, res, next) => {
   }
 };
 
-// POST
 const createCommunity = async (req, res, next) => {
   try {
-    const community = await Community.create(req.body);
+    const community = await Community.create(pickCommunityFields(req.body));
     res.status(201).json(community);
   } catch (error) {
     next(error);
   }
 };
 
-// PATCH
 const updateCommunity = async (req, res, next) => {
   try {
     const community = await Community.findByIdAndUpdate(
       req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true
-      }
+      pickCommunityFields(req.body),
+      { new: true, runValidators: true }
     );
 
     if (!community) {
@@ -78,7 +79,6 @@ const updateCommunity = async (req, res, next) => {
   }
 };
 
-// DELETE
 const deleteCommunity = async (req, res, next) => {
   try {
     const community = await Community.findByIdAndDelete(req.params.id);
@@ -99,5 +99,5 @@ module.exports = {
   getCommunityPosts,
   createCommunity,
   updateCommunity,
-  deleteCommunity
+  deleteCommunity,
 };

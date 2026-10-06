@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import { themeFor } from "../data/mustDoTheme";
 import useApi from "../hooks/useApi.js";
 import "../styles/mustdo.css";
@@ -16,7 +14,6 @@ export default function MustDoPage() {
 
   return (
     <>
-      <Navbar />
       <main className="must-do-page">
         <p className="md-eyebrow">Your first weeks in Finland</p>
         <h1>Must Do Checklist</h1>
@@ -55,7 +52,6 @@ export default function MustDoPage() {
           })}
         </ol>
       </main>
-      <Footer />
     </>
   );
 }

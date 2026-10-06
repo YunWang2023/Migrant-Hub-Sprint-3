@@ -1,41 +1,37 @@
 require("dotenv").config();
-const connectDB = require("./config/db");
-
 const express = require("express");
 const cors = require("cors");
-
 const morgan = require("morgan");
 
 const errorHandler = require("./middleware/errorHandler");
 
+const authRoutes = require("./routes/authRoutes");
+const postRoutes = require("./routes/postRoutes");
+const communityRoutes = require("./routes/communityRoutes");
+const mustDoRoutes = require("./routes/mustDoRoutes");
+
+// This file only builds the Express app. Connecting to MongoDB and
+// listening on a port happens in server.js, so the test suite can
+// import the app without starting a real server.
 const app = express();
-connectDB();
 
 app.use(cors());
 app.use(express.json());
 
-app.use(morgan("dev"));
+// Keep the request log out of the test output.
+if (process.env.NODE_ENV !== "test") {
+  app.use(morgan("dev"));
+}
 
-const postRoutes = require("./routes/postRoutes");
-const mustDoRoutes = require("./routes/mustDoRoutes");
-const communityRoutes = require("./routes/communityRoutes");
-const authRoutes = require("./routes/authRoutes");
-
-app.use("/api/posts", postRoutes);
-app.use("/api/mustdo", mustDoRoutes);
-app.use("/api/communities", communityRoutes);
 app.use("/api/auth", authRoutes);
-
-const PORT = 4000;
+app.use("/api/posts", postRoutes);
+app.use("/api/communities", communityRoutes);
+app.use("/api/mustdo", mustDoRoutes);
 
 app.use((req, res) => {
-  res.status(404).json({
-    error: "Not found"
-  });
+  res.status(404).json({ error: "Not found" });
 });
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app;

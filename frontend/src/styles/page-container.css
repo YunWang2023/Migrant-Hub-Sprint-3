@@ -1,0 +1,48 @@
+/* ---------------------------------------------------------
+   SHARED PAGE CONTAINER
+
+   The navbar centres its contents in a 1280px box with a 32px
+   gutter, so its logo starts 148px from the left on a 1512px
+   screen. Every page in global.css used its own hardcoded side
+   padding instead - 131px on the blog, 246px on Must Do, 356px
+   on Community - so no page lined up with the navbar, and the
+   gap changed with the window size.
+
+   Loaded after global.css, this gives every page the navbar's
+   container: content sits in a 1280px column, falling back to a
+   32px gutter once the window is narrower than that.
+   --------------------------------------------------------- */
+
+:root {
+    --page-max-width: 1280px;
+    --page-gutter: 32px;
+}
+
+/* Full-bleed backgrounds, inset content. */
+.page,
+.write-page,
+.must-do-page,
+.community-page,
+.search-page,
+.blog-details-page,
+.feature-strip,
+.latest-section {
+    padding-left: max(
+        var(--page-gutter),
+        calc((100% - var(--page-max-width)) / 2 + var(--page-gutter))
+    );
+    padding-right: max(
+        var(--page-gutter),
+        calc((100% - var(--page-max-width)) / 2 + var(--page-gutter))
+    );
+}
+
+/* The hero already centres itself in a max-width box, so it only
+   needs the navbar's width and gutter. */
+.hero-content {
+    max-width: var(--page-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
+}

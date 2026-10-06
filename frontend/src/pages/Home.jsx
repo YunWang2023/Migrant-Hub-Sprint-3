@@ -1,119 +1,120 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useApi from "../hooks/useApi.js";
+
 import PostCard from "../components/PostCard";
+import useApi from "../hooks/useApi.js";
+
+const CATEGORIES = [
+    "Housing",
+    "Paperwork",
+    "Transport",
+    "Food",
+    "Study",
+    "Community",
+    "Places",
+];
 
 function Home() {
-    const navigate = useNavigate();
+    const [posts, setPosts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("");
 
-    const categories = [
-        "Housing",
-        "Paperwork",
-        "Transport",
-        "Food",
-        "Study",
-        "Community",
-        "Places",
-    ];
-
-    const { data, loading, error, request } = useApi();
+    const { loading, error, request } = useApi();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const endpoint = selectedCategory
-            ? `/posts?category=${encodeURIComponent(selectedCategory)}&limit=3`
-            : "/posts?limit=3";
-
-        request(endpoint).catch(() => {});
-    }, [selectedCategory, request]);
-
-    const posts = Array.isArray(data)
-        ? data
-        : Array.isArray(data?.posts)
-          ? data.posts
-          : [];
+        request("/posts?limit=3")
+            .then((result) => setPosts(result || []))
+            .catch(() => {
+                // The error message is rendered below.
+            });
+    }, [request]);
 
     const handleSearch = (event) => {
         event.preventDefault();
 
-        if (searchTerm.trim()) {
-            navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+        const value = searchTerm.trim();
+
+        if (value) {
+            navigate(`/search?q=${encodeURIComponent(value)}`);
         }
     };
 
-    const handleCategoryClick = (category) => {
-        setSelectedCategory((current) =>
-            current === category ? "" : category
-        );
-    };
-
     return (
-        <main className="home-page">
-            <section className="home-hero">
-                <div className="section-container">
-                    <p className="section-label">MIGRANT HUB</p>
+        <main>
+
+            <section className="hero">
+
+                <div className="hero-overlay"></div>
+
+                <div className="hero-content">
+
+                    <div className="eyebrow">
+                        WELCOME TO FINLAND
+                    </div>
 
                     <h1>
-                        Your guide to life
+                        Everything you need to start
                         <br />
-                        in Finland
+                        your life in Finland
                     </h1>
 
                     <p className="hero-description">
-                        Find practical information, useful guides, local
-                        communities, and experiences shared by other
-                        international students.
+                        Find practical information, useful guides, local communities,
+                        and experiences shared by other international students.
                     </p>
 
-                    <form
-                        className="hero-search"
-                        onSubmit={handleSearch}
-                    >
+                    <form className="search-box" onSubmit={handleSearch}>
+
                         <input
+                            name="search"
                             type="text"
                             placeholder="What are you looking for?"
                             value={searchTerm}
-                            onChange={(event) =>
-                                setSearchTerm(event.target.value)
-                            }
+                            onChange={(event) => setSearchTerm(event.target.value)}
                         />
 
                         <button type="submit">
                             Search
                         </button>
+
                     </form>
 
-                    <div className="category-chips">
-                        {categories.map((category) => (
+                    <div className="category-buttons">
+
+                        {CATEGORIES.map((category) => (
                             <button
                                 key={category}
                                 type="button"
-                                className={`category-chip ${
-                                    selectedCategory === category
-                                        ? "active"
-                                        : ""
-                                }`}
                                 onClick={() =>
-                                    handleCategoryClick(category)
+                                    navigate(`/search?q=${encodeURIComponent(category)}`)
                                 }
                             >
                                 {category}
                             </button>
                         ))}
+
                     </div>
+
                 </div>
 
                 <div className="hero-tagline">
                     <span>New faces</span>
                     <br />
                     <span>Similar home</span>
-                    <div>♡</div>
+
+                    <div className="heart">
+                        ♡
+                    </div>
                 </div>
+
             </section>
 
+
+            {/* FEATURE STRIP */}
+
             <section className="feature-strip">
-                <div className="feature-item">
+
+                <div className="feature">
                     <div className="feature-icon">□</div>
                     <div>
                         <h3>Practical Guides</h3>
@@ -121,7 +122,7 @@ function Home() {
                     </div>
                 </div>
 
-                <div className="feature-item">
+                <div className="feature">
                     <div className="feature-icon">♟</div>
                     <div>
                         <h3>Real Experiences</h3>
@@ -129,70 +130,67 @@ function Home() {
                     </div>
                 </div>
 
-                <div className="feature-item">
+                <div className="feature">
                     <div className="feature-icon">♡</div>
                     <div>
                         <h3>Supportive Community</h3>
-                        <p>Connect & belong</p>
+                        <p>Connect &amp; belong</p>
                     </div>
                 </div>
 
-                <div className="feature-item">
+                <div className="feature">
                     <div className="feature-icon">♟</div>
                     <div>
                         <h3>Life in Finland</h3>
                         <p>Explore the culture</p>
                     </div>
                 </div>
+
             </section>
 
-            <section className="latest-posts-section">
-                <div className="section-container">
-                    <div className="section-heading">
-                        <div>
-                            <p className="section-label">
-                                {selectedCategory
-                                    ? `${selectedCategory.toUpperCase()} POSTS`
-                                    : "LATEST STORIES"}
-                            </p>
 
-                            <h2>
-                                {selectedCategory
-                                    ? `Posts about ${selectedCategory}`
-                                    : "Helpful posts for your journey"}
-                            </h2>
+            {/* LATEST STORIES */}
+
+            <section className="latest-section">
+
+                <div className="section-header">
+
+                    <div>
+                        <div className="eyebrow dark">
+                            LATEST STORIES
                         </div>
 
-                        <Link
-                            to="/blog"
-                            className="view-all-link"
-                        >
-                            View all posts →
-                        </Link>
+                        <h2>
+                            Helpful posts for your journey
+                        </h2>
                     </div>
 
-                    {loading ? (
-                        <p>Loading posts...</p>
-                    ) : error ? (
-                        <p>Unable to load posts: {error}</p>
-                    ) : posts.length === 0 ? (
-                        <p>
-                            {selectedCategory
-                                ? `No posts found in ${selectedCategory}.`
-                                : "No posts available yet."}
-                        </p>
-                    ) : (
-                        <div className="blog-posts-grid">
-                            {posts.map((post) => (
-                                <PostCard
-                                    key={post.id}
-                                    post={post}
-                                />
-                            ))}
-                        </div>
-                    )}
+                    <Link to="/blog" className="view-posts">
+                        View all posts →
+                    </Link>
+
                 </div>
+
+                <div className="post-grid">
+
+                    {loading && <p>Loading posts…</p>}
+
+                    {error && <p className="auth-error">Failed to load posts: {error}</p>}
+
+                    {!loading && !error && posts.length === 0 && (
+                        <p>No posts have been published yet.</p>
+                    )}
+
+                    {!loading &&
+                        !error &&
+                        posts.map((post) => (
+                            <PostCard key={post.id ?? post._id} post={post} />
+                        ))}
+
+                </div>
+
             </section>
+
         </main>
     );
 }

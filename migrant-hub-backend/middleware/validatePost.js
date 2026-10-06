@@ -1,49 +1,37 @@
+const categories = [
+  "Housing",
+  "Paperwork",
+  "Transport",
+  "Food",
+  "Study",
+  "Community",
+  "Places",
+];
+
 const validatePost = (req, res, next) => {
   const { title, body, category } = req.body;
-
   const errors = [];
 
-  // title
-  if (!title) {
+  if (typeof title !== "string" || !title.trim()) {
     errors.push("title is required");
   } else if (title.length > 120) {
     errors.push("title exceeds 120 characters");
   }
 
-  // body
-  if (!body) {
+  if (typeof body !== "string" || !body.trim()) {
     errors.push("body is required");
-  } else {
-    const wordCount = body.trim().split(/\s+/).length;
-
-    if (wordCount > 512) {
-      errors.push("body exceeds 512 words");
-    }
+  } else if (body.trim().split(/\s+/).length > 512) {
+    errors.push("body exceeds 512 words");
   }
 
-  // category
-  const validCategories = [
-    "Housing",
-    "Paperwork",
-    "Transport",
-    "Food",
-    "Study",
-    "Community",
-    "Places"
-  ];
-
-  if (!category) {
+  if (typeof category !== "string" || !category.trim()) {
     errors.push("category is required");
-  } else if (!validCategories.includes(category)) {
+  } else if (!categories.includes(category)) {
     errors.push("invalid category");
   }
 
-  // return validation errors
   if (errors.length > 0) {
-    return res.status(400).json({
-      error: "Validation failed",
-      details: errors
-    });
+    return res.status(400).json({ error: "Validation failed", details: errors });
   }
 
   next();
