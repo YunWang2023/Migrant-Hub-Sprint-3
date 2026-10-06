@@ -76,7 +76,11 @@ const generatePostSuggestions = async (req, res, next) => {
 // POST - save the final post
 const createPost = async (req, res, next) => {
   try {
-    const post = await Post.create(req.body);
+    const post = await Post.create({
+      ...req.body,
+      author: req.user.name,
+      user: req.user._id,
+    });
 
     res.status(201).json(post);
   } catch (error) {

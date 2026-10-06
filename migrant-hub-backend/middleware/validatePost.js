@@ -1,5 +1,5 @@
 const validatePost = (req, res, next) => {
-  const { title, body, author, category } = req.body;
+  const { title, body, category } = req.body;
 
   const errors = [];
 
@@ -19,11 +19,6 @@ const validatePost = (req, res, next) => {
     if (wordCount > 512) {
       errors.push("body exceeds 512 words");
     }
-  }
-
-  // author
-  if (!author) {
-    errors.push("author is required");
   }
 
   // category
