@@ -366,6 +366,34 @@ function PostCard({
 ========================= */
 
 function Blog() {
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await fetch("http://localhost:4000/api/posts");
+
+        if (!response.ok) {
+          throw new Error("Failed to load posts");
+        }
+
+        const data = await response.json();
+        setBlogPosts(data);
+      } catch (err) {
+        setError(err.message || "Failed to load posts.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPosts();
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -404,34 +432,24 @@ function Blog() {
 
         </div>
 
+        {loading && <p>Loading posts...</p>}
 
-        <div className="post-grid">
+        {error && <p>{error}</p>}
 
-          <PostCard
-            id={1}
-            category="Paperwork"
-            title="How to Register Your Address in Finland"
-            description="A simple guide to registering your address and getting started with everyday life in Finland."
-            tags="FinlandRegistrationGuide"
-          />
-
-          <PostCard
-            id={2}
-            category="Housing"
-            title="Finding Affordable Housing in Helsinki"
-            description="Learn some practical ways to search for student-friendly and affordable housing in Helsinki."
-            tags="HousingHelsinkiStudents"
-          />
-
-          <PostCard
-            id={3}
-            category="Transport"
-            title="Getting Around Helsinki"
-            description="Understand the easiest ways to use public transport and move around Helsinki."
-            tags="TransportHSLHelsinki"
-          />
-
-        </div>
+        {!loading && !error && (
+          <div className="post-grid">
+            {blogPosts.map((post) => (
+              <PostCard
+                key={post.id}
+                id={post.id}
+                category={post.category}
+                title={post.title}
+                description={post.aiTeaser || post.body}
+                tags={post.tags}
+              />
+            ))}
+          </div>
+        )}
 
       </main>
 
