@@ -49,6 +49,7 @@ function BlogDetails() {
             <main className="blog-details-page">
                 <div className="section-container">
                     <h1>Post not found</h1>
+
                     <Link to="/blog" className="view-all-link">
                         ← Back to blog
                     </Link>
