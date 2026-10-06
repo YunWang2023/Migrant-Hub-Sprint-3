@@ -1,159 +1,84 @@
-import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import posts from "../data/postsData";
 
-const topics = [
-  "Housing",
-  "Paperwork",
-  "Transport",
-  "Food",
-  "Study",
-  "Community",
-  "Places",
-];
-
 function Search() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get("q") || "");
-  const [activeTab, setActiveTab] = useState("All");
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get("q")?.trim() || "";
 
-  const results = useMemo(() => {
-    const search = query.trim().toLowerCase();
+    const results = posts.filter((post) => {
+        const searchableText = [
+            post.title,
+            post.author,
+            post.category,
+            post.aiTeaser,
+            post.content,
+            ...(post.tags || [])
+        ]
+            .join(" ")
+            .toLowerCase();
 
-    if (!search) {
-      return posts;
-    }
-
-    return posts.filter((post) => {
-      const text = [
-        post.title,
-        post.author,
-        post.category,
-        post.aiTeaser,
-        post.content,
-        ...(post.tags || []),
-      ]
-        .join(" ")
-        .toLowerCase();
-
-      return text.includes(search);
+        return searchableText.includes(query.toLowerCase());
     });
-  }, [query]);
 
-  const handleSearch = (event) => {
-    event.preventDefault();
+    return (
+        <main className="page">
+            <div className="section-container">
+                <p className="section-label">SEARCH</p>
 
-    const trimmedQuery = query.trim();
+                <h1>
+                    {query ? `Search results for "${query}"` : "Search"}
+                </h1>
 
-    if (trimmedQuery) {
-      setSearchParams({ q: trimmedQuery });
-    } else {
-      setSearchParams({});
-    }
-  };
+                {!query ? (
+                    <p>Enter something in the search bar to find posts.</p>
+                ) : results.length === 0 ? (
+                    <p>No posts found for "{query}".</p>
+                ) : (
+                    <div className="blog-posts-grid">
+                        {results.map((post) => (
+                            <article className="post-card" key={post.id}>
+                                <div className="post-category">
+                                    {post.category}
+                                </div>
 
-  const handleTopicClick = (topic) => {
-    setQuery(topic);
-    setSearchParams({ q: topic });
-  };
+                                <h3>{post.title}</h3>
 
-  return (
-    <>
-      <main className="search-page">
-        <div className="section-container">
-          <h1>Search</h1>
+                                <div className="post-author">
+                                    By {post.author}
+                                </div>
 
-          <form onSubmit={handleSearch} className="search-form">
-            <input
-              type="text"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search for guides, topics, or posts..."
-              aria-label="Search"
-            />
+                                <p>
+                                    {post.aiTeaser || post.content}
+                                </p>
 
-            <button type="submit">Search</button>
-          </form>
+                                <div className="post-tags">
+                                    {post.tags?.map((tag) => (
+                                        <span
+                                            className="post-card-tag"
+                                            key={tag}
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
 
-          <div className="search-tabs">
-            {["All", "Blog Posts", "Community Posts", "Guides"].map(
-              (tab) => (
-                <button
-                  key={tab}
-                  type="button"
-                  className={activeTab === tab ? "active" : ""}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {tab}
-                </button>
-              )
-            )}
-          </div>
+                                <Link
+                                    to={`/blog/${post.id}`}
+                                    className="read-more"
+                                >
+                                    Read more →
+                                </Link>
+                            </article>
+                        ))}
+                    </div>
+                )}
 
-          <section className="search-results">
-            <h2>
-              {query.trim()
-                ? `Search results for "${query}"`
-                : "All Posts"}
-            </h2>
-
-            {results.length > 0 ? (
-              results.map((post) => (
-                <article key={post.id} className="post-card">
-                  <div className="post-category">{post.category}</div>
-
-                  <h3>{post.title}</h3>
-
-                  <div className="post-author">
-                    By {post.author}
-                  </div>
-
-                  <p>{post.aiTeaser}</p>
-
-                  <div className="post-tags">
-                    {post.tags?.map((tag) => (
-                      <button
-                        key={tag}
-                        type="button"
-                        onClick={() => handleTopicClick(tag)}
-                      >
-                        {tag}
-                      </button>
-                    ))}
-                  </div>
-
-                  <Link
-                    to={`/blog/${post.id}`}
-                    className="read-more"
-                  >
-                    Read more →
-                  </Link>
-                </article>
-              ))
-            ) : (
-              <p>No posts found. Try another search.</p>
-            )}
-          </section>
-
-          <section className="popular-topics">
-            <h2>Popular Topics</h2>
-
-            <div className="topic-tags">
-              {topics.map((topic) => (
-                <button
-                  key={topic}
-                  type="button"
-                  onClick={() => handleTopicClick(topic)}
-                >
-                  {topic}
-                </button>
-              ))}
+                <Link to="/" className="view-all-link">
+                    ← Back home
+                </Link>
             </div>
-          </section>
-        </div>
-      </main>
-    </>
-  );
+        </main>
+    );
 }
 
 export default Search;

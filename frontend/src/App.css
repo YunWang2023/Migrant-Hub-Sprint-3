@@ -3,3 +3,98 @@
    Main application styling is handled
    by src/styles/global.css.
 */
+/* =========================
+   BLOG DETAILS PAGE
+========================= */
+
+.blog-details-page {
+  min-height: calc(100vh - 80px);
+  padding: 80px 20px 100px;
+  background: #f7f3ed;
+}
+
+.blog-details {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 55px 65px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.blog-details .section-label {
+  color: #e8751a;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.blog-details h1 {
+  color: #092b42;
+  font-size: 48px;
+  line-height: 1.15;
+  margin: 0 0 20px;
+  font-weight: 700;
+}
+
+.blog-details-author {
+  color: #64748b;
+  font-size: 17px;
+  margin-bottom: 25px;
+}
+
+.blog-details-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 35px;
+}
+
+.blog-details-tags .post-card-tag {
+  background: #eaf1f5;
+  color: #092b42;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.blog-details-content {
+  color: #263746;
+  font-size: 19px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.blog-details .view-all-link {
+  display: inline-block;
+  color: #e8751a;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.blog-details .view-all-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .blog-details-page {
+    padding: 40px 15px 70px;
+  }
+
+  .blog-details {
+    padding: 35px 25px;
+  }
+
+  .blog-details h1 {
+    font-size: 34px;
+  }
+
+  .blog-details-content {
+    font-size: 17px;
+  }
+}
+

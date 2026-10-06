@@ -88,6 +88,9 @@ export default function CommunityPage() {
                   </h4>
                   <p>{post.aiTeaser || `${post.body.slice(0, 160)}…`}</p>
                   <small>By {post.author?.name ?? post.author}</small>
+                  <Link to={`/blog/${post.id}`} className="cm-post-link">
+                    Read more →
+                  </Link>
                 </li>
               ))}
             </ul>

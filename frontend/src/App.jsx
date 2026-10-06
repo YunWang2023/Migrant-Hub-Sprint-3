@@ -1,7 +1,6 @@
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext.jsx";
 import { Routes, Route, NavLink, Link } from "react-router-dom";
-import SearchPage from "./pages/Search";
 import BlogDetails from "./pages/BlogDetails";
 import MustDoPage from "./pages/MustDoPage";
 import MustDoDetail from "./pages/MustDoDetail";
@@ -9,8 +8,9 @@ import CommunityPage from "./pages/CommunityPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useApi from "./hooks/useApi.js";
+import posts from "./data/postsData";
 
 function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -146,18 +146,26 @@ function Home() {
               and experiences shared by other international students.
             </p>
 
-            <div className="search-box">
-
+            <form
+              className="search-box"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const value = e.currentTarget.elements.search.value.trim();
+                if (value) {
+                  window.location.href = `/search?q=${encodeURIComponent(value)}`;
+                }
+              }}
+            >
               <input
+                name="search"
                 type="text"
                 placeholder="What are you looking for?"
               />
 
-              <button>
+              <button type="submit">
                 Search
               </button>
-
-            </div>
+            </form>
 
             <div className="category-buttons">
               <button onClick={() => (window.location.href = "/search?q=Housing")}>Housing</button>
@@ -342,7 +350,7 @@ function PostCard({
       </div>
 
       <Link
-        to="#"
+        to={`/blog/${id}`}
         className="read-more"
       >
         Read more →
@@ -671,23 +679,109 @@ function Community() {
 ========================= */
 
 function Search() {
+  const query = new URLSearchParams(window.location.search)
+    .get("q")
+    ?.trim() || "";
+
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!query) {
+      setResults([]);
+      return;
+    }
+
+    const searchPosts = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const categories = [
+          "Housing",
+          "Paperwork",
+          "Transport",
+          "Food",
+          "Study",
+          "Community",
+          "Places",
+        ];
+
+        const isCategory = categories.includes(query);
+        const endpoint = isCategory
+          ? `http://localhost:4000/api/posts?category=${encodeURIComponent(query)}`
+          : `http://localhost:4000/api/posts?search=${encodeURIComponent(query)}`;
+
+        const response = await fetch(endpoint);
+
+        if (!response.ok) {
+          throw new Error("Failed to search posts.");
+        }
+
+        const data = await response.json();
+        setResults(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    searchPosts();
+  }, [query]);
+
   return (
     <>
       <Navbar />
 
       <main className="search-page">
+        <div className="section-container">
+          <h1>
+            {query ? `Search results for "${query}"` : "Search"}
+          </h1>
 
-        <h1>
-          Search
-        </h1>
+          {!query ? (
+            <p>Enter something in the search bar.</p>
+          ) : loading ? (
+            <p>Searching...</p>
+          ) : error ? (
+            <p className="auth-error">{error}</p>
+          ) : results.length === 0 ? (
+            <p>No posts found for "{query}".</p>
+          ) : (
+            <div className="blog-posts-grid">
+              {results.map((post) => (
+                <article className="post-card" key={post.id}>
+                  <div className="post-category">
+                    {post.category}
+                  </div>
 
+                  <h3>{post.title}</h3>
+
+                  <div className="post-author">
+                    By {post.author}
+                  </div>
+
+                  <p>{post.aiTeaser || post.body}</p>
+
+                  <Link
+                    to={`/blog/${post.id}`}
+                    className="read-more"
+                  >
+                    Read more →
+                  </Link>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
       </main>
 
       <Footer />
     </>
   );
 }
-
 
 /* =========================
    LOGIN
@@ -750,11 +844,7 @@ function App() {
 
       <Route
         path="/write-post"
-        element={
-          <ProtectedRoute>
-            <WritePost />
-          </ProtectedRoute>
-        }
+        element={<WritePost />}
       />
       <Route
         path="/community"
@@ -763,7 +853,7 @@ function App() {
 
       <Route
         path="/search"
-        element={<SearchPage />}
+        element={<Search />}
       />
 
       <Route

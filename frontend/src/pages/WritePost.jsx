@@ -1,22 +1,58 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx";
+import useApi from "../hooks/useApi.js";
 
 function WritePost() {
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
     const [category, setCategory] = useState("");
-    const [community, setCommunity] = useState("");
+    const [formError, setFormError] = useState("");
+
+    const { user, isAuthenticated } = useAuth();
+    const { loading, request } = useApi();
+    const navigate = useNavigate();
 
     const wordCount = body.trim() ? body.trim().split(/\s+/).length : 0;
     const remainingWords = 512 - wordCount;
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        setFormError("");
 
-        if (wordCount > 512) {
+        if (!isAuthenticated) {
+            setFormError("Please log in before publishing a post.");
             return;
         }
 
-        alert("Post submitted successfully!");
+        if (wordCount === 0) {
+            setFormError("Please write something in your post.");
+            return;
+        }
+
+        if (wordCount > 512) {
+            setFormError("Your post is over the 512 word limit.");
+            return;
+        }
+
+        try {
+            await request("/posts", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: title.trim(),
+                    body: body.trim(),
+                    author: user?.name || user?.email || "Migrant Hub User",
+                    category,
+                        }),
+            });
+
+            navigate("/blog");
+        } catch (error) {
+            setFormError(error.message || "Failed to publish post.");
+        }
     };
 
     return (
@@ -30,6 +66,12 @@ function WritePost() {
                     Share your experience, advice, or useful information
                     with the Migrant Hub community.
                 </p>
+
+                {formError && (
+                    <p className="auth-error" role="alert">
+                        {formError}
+                    </p>
+                )}
 
                 <form className="write-post-form" onSubmit={handleSubmit}>
                     <label htmlFor="title">Title</label>
@@ -78,27 +120,11 @@ function WritePost() {
                         <option value="Places">Places</option>
                     </select>
 
-                    <label htmlFor="community">Community</label>
-
-                    <select
-                        id="community"
-                        value={community}
-                        onChange={(event) => setCommunity(event.target.value)}
-                        required
-                    >
-                        <option value="">Select a community</option>
-                        <option value="Students">Students</option>
-                        <option value="Newcomers">Newcomers</option>
-                        <option value="Helsinki">Helsinki</option>
-                        <option value="Espoo">Espoo</option>
-                        <option value="Vantaa">Vantaa</option>
-                    </select>
-
                     <button
                         type="submit"
-                        disabled={wordCount > 512 || wordCount === 0}
+                        disabled={loading || wordCount > 512 || wordCount === 0}
                     >
-                        Publish post
+                        {loading ? "Publishing..." : "Publish post"}
                     </button>
                 </form>
             </section>

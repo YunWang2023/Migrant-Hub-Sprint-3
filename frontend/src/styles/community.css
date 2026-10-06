@@ -186,3 +186,16 @@
 @media (prefers-reduced-motion: reduce) {
   .cm-tab, .cm-post { transition: none; }
 }
+
+.cm-post-link {
+  display: block;
+  margin-top: 8px;
+  color: #d96521;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cm-post-link:hover {
+  text-decoration: underline;
+}
