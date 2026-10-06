@@ -1,14 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import posts from "../data/postsData";
+import useApi from "../hooks/useApi.js";
 import PostCard from "../components/PostCard";
 
 function Home() {
-
     const navigate = useNavigate();
-
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
 
     const categories = [
         "Housing",
@@ -17,51 +15,61 @@ function Home() {
         "Food",
         "Study",
         "Community",
-        "Places"
+        "Places",
     ];
 
-    const handleSearch = (event) => {
+    const { data, loading, error, request } = useApi();
 
+    useEffect(() => {
+        const endpoint = selectedCategory
+            ? `/posts?category=${encodeURIComponent(selectedCategory)}&limit=3`
+            : "/posts?limit=3";
+
+        request(endpoint).catch(() => {});
+    }, [selectedCategory, request]);
+
+    const posts = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.posts)
+          ? data.posts
+          : [];
+
+    const handleSearch = (event) => {
         event.preventDefault();
 
         if (searchTerm.trim()) {
-            navigate(
-                `/search?q=${encodeURIComponent(searchTerm.trim())}`
-            );
+            navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
         }
+    };
+
+    const handleCategoryClick = (category) => {
+        setSelectedCategory((current) =>
+            current === category ? "" : category
+        );
     };
 
     return (
         <main className="home-page">
-
-            {/* HERO */}
-
-            <section className="hero-section">
-
-                <div className="hero-overlay"></div>
-
-                <div className="hero-content">
-
-                    <p className="hero-label">
-                        WELCOME TO FINLAND
-                    </p>
+            <section className="home-hero">
+                <div className="section-container">
+                    <p className="section-label">MIGRANT HUB</p>
 
                     <h1>
-                        Everything you need to start
+                        Your guide to life
                         <br />
-                        your life in Finland
+                        in Finland
                     </h1>
 
-                    <p className="hero-text">
-                        Find practical information, useful guides, local communities,
-                        and experiences shared by other international students.
+                    <p className="hero-description">
+                        Find practical information, useful guides, local
+                        communities, and experiences shared by other
+                        international students.
                     </p>
 
                     <form
                         className="hero-search"
                         onSubmit={handleSearch}
                     >
-
                         <input
                             type="text"
                             placeholder="What are you looking for?"
@@ -74,29 +82,27 @@ function Home() {
                         <button type="submit">
                             Search
                         </button>
-
                     </form>
 
                     <div className="category-chips">
-
                         {categories.map((category) => (
-
                             <button
                                 key={category}
                                 type="button"
-                                className="category-chip"
+                                className={`category-chip ${
+                                    selectedCategory === category
+                                        ? "active"
+                                        : ""
+                                }`}
+                                onClick={() =>
+                                    handleCategoryClick(category)
+                                }
                             >
                                 {category}
                             </button>
-
                         ))}
-
                     </div>
-
                 </div>
-
-
-                {/* TAGLINE */}
 
                 <div className="hero-tagline">
                     <span>New faces</span>
@@ -104,90 +110,57 @@ function Home() {
                     <span>Similar home</span>
                     <div>♡</div>
                 </div>
-
             </section>
 
-
-            {/* FEATURE BAR */}
-
             <section className="feature-strip">
-
                 <div className="feature-item">
-
-                    <div className="feature-icon">
-                        □
-                    </div>
-
+                    <div className="feature-icon">□</div>
                     <div>
                         <h3>Practical Guides</h3>
                         <p>Step by step</p>
                     </div>
-
                 </div>
 
-
                 <div className="feature-item">
-
-                    <div className="feature-icon">
-                        ♟
-                    </div>
-
+                    <div className="feature-icon">♟</div>
                     <div>
                         <h3>Real Experiences</h3>
                         <p>From students</p>
                     </div>
-
                 </div>
 
-
                 <div className="feature-item">
-
-                    <div className="feature-icon">
-                        ♡
-                    </div>
-
+                    <div className="feature-icon">♡</div>
                     <div>
                         <h3>Supportive Community</h3>
                         <p>Connect & belong</p>
                     </div>
-
                 </div>
 
-
                 <div className="feature-item">
-
-                    <div className="feature-icon">
-                        ♟
-                    </div>
-
+                    <div className="feature-icon">♟</div>
                     <div>
                         <h3>Life in Finland</h3>
                         <p>Explore the culture</p>
                     </div>
-
                 </div>
-
             </section>
 
-
-            {/* LATEST STORIES */}
-
             <section className="latest-posts-section">
-
                 <div className="section-container">
-
                     <div className="section-heading">
-
                         <div>
-
                             <p className="section-label">
-                                LATEST STORIES
+                                {selectedCategory
+                                    ? `${selectedCategory.toUpperCase()} POSTS`
+                                    : "LATEST STORIES"}
                             </p>
 
                             <h2>
-                                Helpful posts for your journey
+                                {selectedCategory
+                                    ? `Posts about ${selectedCategory}`
+                                    : "Helpful posts for your journey"}
                             </h2>
-
                         </div>
 
                         <Link
@@ -196,27 +169,30 @@ function Home() {
                         >
                             View all posts →
                         </Link>
-
                     </div>
 
-
-                    <div className="blog-posts-grid">
-
-                        {posts.slice(0, 3).map((post) => (
-
-                            <PostCard
-                                key={post.id}
-                                post={post}
-                            />
-
-                        ))}
-
-                    </div>
-
+                    {loading ? (
+                        <p>Loading posts...</p>
+                    ) : error ? (
+                        <p>Unable to load posts: {error}</p>
+                    ) : posts.length === 0 ? (
+                        <p>
+                            {selectedCategory
+                                ? `No posts found in ${selectedCategory}.`
+                                : "No posts available yet."}
+                        </p>
+                    ) : (
+                        <div className="blog-posts-grid">
+                            {posts.map((post) => (
+                                <PostCard
+                                    key={post.id}
+                                    post={post}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
-
             </section>
-
         </main>
     );
 }

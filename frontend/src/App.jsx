@@ -1,6 +1,6 @@
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext.jsx";
-import { Routes, Route, NavLink, Link } from "react-router-dom";
+import { Routes, Route, NavLink, Link, useNavigate } from "react-router-dom";
 import BlogDetails from "./pages/BlogDetails";
 import MustDoPage from "./pages/MustDoPage";
 import MustDoDetail from "./pages/MustDoDetail";
@@ -464,14 +464,144 @@ function Blog() {
 ========================= */
 
 function WritePost() {
+  const navigate = useNavigate();
+  const { user, token, isAuthenticated } = useAuth();
+
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [category, setCategory] = useState("");
+  const [communityId, setCommunityId] = useState("");
+  const [aiTeaser, setAiTeaser] = useState("");
+  const [tags, setTags] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [loadingAI, setLoadingAI] = useState(false);
+  const [publishing, setPublishing] = useState(false);
+  const [error, setError] = useState("");
+
+  const wordCount = body.trim()
+    ? body.trim().split(/\s+/).length
+    : 0;
+
+  const wordsRemaining = Math.max(512 - wordCount, 0);
+
+  const handleGetSuggestions = async () => {
+    setError("");
+
+    if (!title.trim() || !body.trim() || !category) {
+      setError("Please enter a title, post content, and category first.");
+      return;
+    }
+
+    if (wordCount > 512) {
+      setError("Your post exceeds the 512-word limit.");
+      return;
+    }
+
+    if (!isAuthenticated || !token) {
+      setError("You must be logged in to publish a post.");
+      return;
+    }
+
+    try {
+      setLoadingAI(true);
+
+      const response = await fetch(
+        "http://localhost:4000/api/posts/enrich",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            title: title.trim(),
+            body: body.trim(),
+            category,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || "Failed to generate AI suggestions."
+        );
+      }
+
+      setAiTeaser(data.teaser || data.aiTeaser || "");
+      setTags(Array.isArray(data.tags) ? data.tags : []);
+      setShowSuggestions(true);
+    } catch (err) {
+      setError(err.message || "Failed to generate AI suggestions.");
+    } finally {
+      setLoadingAI(false);
+    }
+  };
+
+  const handlePublish = async (event) => {
+    event.preventDefault();
+    setError("");
+
+    if (!title.trim() || !body.trim() || !category) {
+      setError("Please enter a title, post content, and category.");
+      return;
+    }
+
+    if (wordCount > 512) {
+      setError("Your post exceeds the 512-word limit.");
+      return;
+    }
+
+    if (!isAuthenticated || !token) {
+      setError("You must be logged in to publish a post.");
+      return;
+    }
+
+    try {
+      setPublishing(true);
+
+      const response = await fetch(
+        "http://localhost:4000/api/posts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            title: title.trim(),
+            body: body.trim(),
+            category,
+            communityId: communityId || null,
+            aiTeaser: aiTeaser.trim() || null,
+            tags,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || "Failed to publish the post."
+        );
+      }
+
+      navigate(`/blog/${data.id}`);
+    } catch (err) {
+      setError(err.message || "Failed to publish the post.");
+    } finally {
+      setPublishing(false);
+    }
+  };
+
   return (
     <>
       <Navbar />
 
       <main className="write-page">
-
         <div className="write-heading">
-
           <div className="eyebrow dark">
             SHARE YOUR EXPERIENCE
           </div>
@@ -484,86 +614,148 @@ function WritePost() {
             Share your experience, advice, or useful information with the
             Migrant Hub community.
           </p>
-
         </div>
 
+        {!isAuthenticated && (
+          <p>
+            Please log in before publishing a post.
+          </p>
+        )}
 
-        <form className="write-form">
+        {user && (
+          <p>
+            Publishing as <strong>{user.name}</strong>
+          </p>
+        )}
 
+        <form className="write-form" onSubmit={handlePublish}>
           <label>
             Title
           </label>
 
           <input
             type="text"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
             placeholder="Enter your post title"
+            maxLength={120}
           />
-
 
           <label>
             Post
           </label>
 
           <textarea
+            value={body}
+            onChange={(event) => setBody(event.target.value)}
             placeholder="Write your post here..."
-          ></textarea>
+          />
 
           <div className="word-count">
-            512 words remaining
+            {wordsRemaining} words remaining
           </div>
-
 
           <label>
             Category
           </label>
 
-          <select>
-
-            <option>
+          <select
+            value={category}
+            onChange={(event) => setCategory(event.target.value)}
+          >
+            <option value="">
               Select a category
             </option>
 
-            <option>Housing</option>
-            <option>Paperwork</option>
-            <option>Transport</option>
-            <option>Food</option>
-            <option>Study</option>
-            <option>Community</option>
-            <option>Places</option>
-
+            <option value="Housing">Housing</option>
+            <option value="Paperwork">Paperwork</option>
+            <option value="Transport">Transport</option>
+            <option value="Food">Food</option>
+            <option value="Study">Study</option>
+            <option value="Community">Community</option>
+            <option value="Places">Places</option>
           </select>
-
 
           <label>
             Community
           </label>
 
-          <select>
-
-            <option>
+          <select
+            value={communityId}
+            onChange={(event) => setCommunityId(event.target.value)}
+          >
+            <option value="">
               Select a community
             </option>
 
-            <option>
+            <option value="Helsinki Newcomers Community">
               Helsinki Newcomers Community
             </option>
-
           </select>
 
+          {error && (
+            <p>
+              {error}
+            </p>
+          )}
 
-          <button className="publish-button">
-            Publish post
+          <button
+            type="button"
+            className="publish-button"
+            onClick={handleGetSuggestions}
+            disabled={loadingAI || publishing}
+          >
+            {loadingAI
+              ? "Generating suggestions..."
+              : "Get AI suggestions"}
           </button>
 
-        </form>
+          {showSuggestions && (
+            <div>
+              <label>
+                AI Teaser
+              </label>
 
+              <textarea
+                value={aiTeaser}
+                onChange={(event) => setAiTeaser(event.target.value)}
+                placeholder="AI-generated teaser"
+              />
+
+              <label>
+                Suggested Tags
+              </label>
+
+              <input
+                type="text"
+                value={tags.join(", ")}
+                onChange={(event) =>
+                  setTags(
+                    event.target.value
+                      .split(",")
+                      .map((tag) => tag.trim())
+                      .filter(Boolean)
+                  )
+                }
+                placeholder="housing, Finland, newcomers"
+              />
+
+              <button
+                type="submit"
+                className="publish-button"
+                disabled={publishing}
+              >
+                {publishing ? "Publishing..." : "Publish post"}
+              </button>
+            </div>
+          )}
+        </form>
       </main>
 
       <Footer />
     </>
   );
 }
-
 
 /* =========================
    MUST DO

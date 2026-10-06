@@ -1,24 +1,24 @@
+import { useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import posts from "../data/postsData";
+import useApi from "../hooks/useApi.js";
 
 function Search() {
     const [searchParams] = useSearchParams();
     const query = searchParams.get("q")?.trim() || "";
 
-    const results = posts.filter((post) => {
-        const searchableText = [
-            post.title,
-            post.author,
-            post.category,
-            post.aiTeaser,
-            post.content,
-            ...(post.tags || [])
-        ]
-            .join(" ")
-            .toLowerCase();
+    const { data, loading, error, request } = useApi();
 
-        return searchableText.includes(query.toLowerCase());
-    });
+    useEffect(() => {
+        if (!query) return;
+
+        request(`/posts?search=${encodeURIComponent(query)}`).catch(() => {});
+    }, [query, request]);
+
+    const results = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.posts)
+          ? data.posts
+          : [];
 
     return (
         <main className="page">
@@ -31,6 +31,10 @@ function Search() {
 
                 {!query ? (
                     <p>Enter something in the search bar to find posts.</p>
+                ) : loading ? (
+                    <p>Searching posts...</p>
+                ) : error ? (
+                    <p>Unable to load search results: {error}</p>
                 ) : results.length === 0 ? (
                     <p>No posts found for "{query}".</p>
                 ) : (
@@ -48,7 +52,7 @@ function Search() {
                                 </div>
 
                                 <p>
-                                    {post.aiTeaser || post.content}
+                                    {post.aiTeaser || post.body || post.content}
                                 </p>
 
                                 <div className="post-tags">
