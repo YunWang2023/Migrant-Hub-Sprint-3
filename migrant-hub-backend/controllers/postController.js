@@ -1,4 +1,5 @@
 const Post = require("../models/postModel");
+const { enrichPost } = require("../services/aiService");
 
 // GET all posts
 const getAllPosts = async (req, res, next) => {
@@ -47,7 +48,32 @@ const getPostById = async (req, res, next) => {
   }
 };
 
-// POST
+// POST - generate AI suggestions without saving the post
+const generatePostSuggestions = async (req, res, next) => {
+  try {
+    const { title, body } = req.body;
+
+    if (!title || !body) {
+      return res.status(400).json({
+        error: "Title and body are required"
+      });
+    }
+
+    const suggestions = await enrichPost({ title, body });
+
+    if (!suggestions) {
+      return res.status(503).json({
+        error: "AI suggestions are currently unavailable"
+      });
+    }
+
+    res.status(200).json(suggestions);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// POST - save the final post
 const createPost = async (req, res, next) => {
   try {
     const post = await Post.create(req.body);
@@ -102,6 +128,7 @@ const deletePost = async (req, res, next) => {
 module.exports = {
   getAllPosts,
   getPostById,
+  generatePostSuggestions,
   createPost,
   updatePost,
   deletePost
