@@ -1,7 +1,6 @@
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext.jsx";
 import { Routes, Route, NavLink, Link } from "react-router-dom";
-import SearchPage from "./pages/Search";
 import BlogDetails from "./pages/BlogDetails";
 import MustDoPage from "./pages/MustDoPage";
 import MustDoDetail from "./pages/MustDoDetail";
@@ -146,18 +145,26 @@ function Home() {
               and experiences shared by other international students.
             </p>
 
-            <div className="search-box">
-
+            <form
+              className="search-box"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const value = e.currentTarget.elements.search.value.trim();
+                if (value) {
+                  window.location.href = `/search?q=${encodeURIComponent(value)}`;
+                }
+              }}
+            >
               <input
+                name="search"
                 type="text"
                 placeholder="What are you looking for?"
               />
 
-              <button>
+              <button type="submit">
                 Search
               </button>
-
-            </div>
+            </form>
 
             <div className="category-buttons">
               <button onClick={() => (window.location.href = "/search?q=Housing")}>Housing</button>
@@ -342,7 +349,7 @@ function PostCard({
       </div>
 
       <Link
-        to="#"
+        to={`/blog/${id}`}
         className="read-more"
       >
         Read more →
@@ -763,7 +770,7 @@ function App() {
 
       <Route
         path="/search"
-        element={<SearchPage />}
+        element={<Search />}
       />
 
       <Route
