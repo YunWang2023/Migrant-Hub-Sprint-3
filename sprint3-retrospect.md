@@ -59,7 +59,7 @@ than leaving it to the next day.
 - Completed: All of the tasks items on the board.
 - Not completed: deployment. It was named in our sprint goal and is carried
   forward rather than dropped.
-- Velocity: Sprint 2 was 25 of 26 items. Sprint 3 was 45 of 45.
+- Velocity: 44 of 44.
 - Team satisfaction: We are all satisfied with our work this sprint.
 - Attendance: full at every meeting.
 
