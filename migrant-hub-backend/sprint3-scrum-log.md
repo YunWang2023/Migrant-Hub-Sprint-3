@@ -1,20 +1,26 @@
 # Daily Scrum Log — Sprint 3
 
-**Project:** Migrant Hub
-**Sprint 3 goal:** Connect the React frontend to the Express API so the application works end to end, add real registration and login, and deploy it — keeping the Sprint 1 prototype as the reference.
-**Scrum Master:** Sajib Das
-**Note:** Entries from 17 Sep to 6 Oct were written up afterwards from meeting notes, chat and Git history. Entries from 7 Oct onward are recorded on the day.
+**Project:** Migrant Hub  
+**Sprint 3 Goal:** Connect the React frontend with the backend API so the application works properly from start to finish, add working registration and login, and deploy the application. The Sprint 1 prototype will be used as a reference.
 
-| Date | Attendance | Progress & Work Completed | Blockers & Next Steps | Recorded By |
+**Scrum Master:** Sajib Das
+
+**Note:** Entries from 17 September to 6 October were added afterwards based on meeting notes, team chats, and Git history. Entries from 7 October onward are recorded on the same day.
+
+| Date | Attendance | Progress & Work Completed | Blockers / Status | Recorded By |
 |---|---|---|---|---|
-| **Thu 17 Sep** | All (5) | Sprint 2 presented. Started Sprint 3 planning: reviewed Sprint 2 velocity (25 of 26 tasks) and agreed the 10% buffer. | Next: agree the Sprint 3 goal and split tasks between frontend and backend. | Sajib |
-| **Mon 21 Sep** | All (5) | Agreed the Sprint 3 goal (connect frontend to API, real auth, deploy). Split tasks: Pratham, Prabhleen, Sajib on frontend; Sehwinder, Yun on backend. | Next: agree the authentication approach before anyone builds on it. | Sajib |
-| **Tue 22 Sep** | All (5) | Agreed auth approach: JWT returned on login, token stored on the frontend, create/update/delete posts protected, reading stays public. | Next: Sehwinder to design the User model; Yun to plan the auth endpoints. | Sajib |
-| **Wed 23 Sep** | All (5) | Reviewed the API contract for the new auth endpoints (register, login, logout, current user) and the unified error shape. | Next: plan the integration spike — blog list fetching real data from GET /api/posts. | Sajib |
-| **Thu 24 Sep** | All (5) | Named what we drop first if short on time: role-based access, admin review, AI community suggestion. Agreed integration must not wait until the end of the sprint. | Next: reconcile mock wording with the seeded database (Sajib + Sehwinder). | Sajib |
-| **Mon 28 Sep** | All (5) | Sajib and Sehwinder compared Must Do and community wording between the mock data and the seed file. Prabhleen planned the shared useApi hook and AuthContext. | Others' pages depend on Prabhleen's hook and auth context. Next: decide the hook's interface. | Sajib |
-| **Tue 29 Sep** | All (5) | Sehwinder planned password hashing (bcrypt pre-save hook) and JWT helpers with the secret in .env. Yun planned CORS as a day-one task. | Next: start the backend auth branch. | Sajib |
-| **Wed 30 Sep** | All (5) | Pratham planned the blog list, post detail and Write a Post flow with the author taken from the logged-in user. Sehwinder scoped the AI enrichment (teaser, tags, category, failure path). | Risk: the AI feature growing too big. Next: keep it to one call and four fields. | Sajib |
-| **Thu 1 Oct** | All (5) | Reviewed progress against the week-by-week plan. Agreed to try deployment in week 7 rather than leaving it to week 8. | Next: push the backend auth work and start frontend integration. | Sajib |
-| **Mon 5 Oct** | All (5) | Yun merged register, login, logout, current user, protected post routes and API docs (PR #3). Sehwinder merged the User model, JWT helpers and Gemini AI service (PR #2). Prabhleen added AuthContext, useApi and ProtectedRoute. Sajib connected Must Do and Community pages to the API. | Blocker: Sprint 2 copy (a996351) reverted backend app.js, losing auth routes and CORS on main. Next: restore backend from 8f3e721. | Sajib |
-| **Tue 6 Oct** | All (5) | Sajib finished Login and Register with real authentication, added the Sign up link and opened a PR. Pratham fixed navigation and posts. | Blockers: backend on main still missing auth routes; Sajib's PR not yet merged. Next: merge PRs, restore backend, accessibility pass, deployment. | Sajib |
+| **Thu 17 Sep** | All (5) | Sprint 2 was presented. We started planning Sprint 3, reviewed the previous sprint's progress, and discussed the extra time kept for unexpected work. | No blockers. Continued planning Sprint 3 tasks. | Sajib |
+| **Mon 21 Sep** | All (5) | Agreed on the Sprint 3 goal: connect the frontend and backend, add working login and registration, and deploy the application. Tasks were divided between frontend and backend teams. Pratham, Prabhleen and Sajib took frontend tasks, while Sehwinder and Yun took backend tasks. | No blockers. | Sajib |
+| **Tue 22 Sep** | All (5) | Discussed and agreed on how login and user authentication would work. Users will be able to log in, and only logged-in users can create, edit or delete posts. Everyone can still read posts. | No blockers. Continued with user and login-related work. | Sajib |
+| **Wed 23 Sep** | All (5) | Reviewed how registration, login, logout and current-user features would connect between the frontend and backend. Also discussed keeping error messages consistent. | No blockers. Continued planning frontend and backend connection. | Sajib |
+| **Thu 24 Sep** | All (5) | Discussed which extra features could be left out if there was not enough time. Role-based access, admin review and AI community suggestions were marked as lower priority. Agreed to start connecting frontend and backend early. | No blockers. | Sajib |
+| **Mon 28 Sep** | All (5) | Sajib and Sehwinder compared the Must Do and Community content with the database content. Prabhleen planned the shared API connection and login system for the frontend. | Dependencies were discussed within the team and work continued. | Sajib |
+| **Tue 29 Sep** | All (5) | Sehwinder planned secure password storage and login support. Yun planned the connection settings needed for the frontend and backend to communicate properly. | No blockers. Backend login work continued. | Sajib |
+| **Wed 30 Sep** | All (5) | Pratham planned the blog list, post details and Write a Post feature. Sehwinder planned the AI feature for generating a short description, tags and category for posts. | AI work was kept simple to avoid unnecessary complexity. No blockers. | Sajib |
+| **Thu 1 Oct** | All (5) | Reviewed the team's progress and compared it with the sprint plan. The team agreed to try deployment earlier instead of waiting until the final week. | No blockers. Work continued on login and frontend-backend connection. | Sajib |
+| **Mon 5 Oct** | All (5) | Yun completed the registration, login, logout and current-user features along with protected post actions. Sehwinder completed the User model, login support and Gemini AI service. Prabhleen worked on frontend login support and protected pages. Sajib connected the Must Do and Community pages to the backend. | A backend issue appeared after older code was copied into the main branch. The team identified the issue and worked together to restore the required code. | Sajib |
+| **Tue 6 Oct** | All (5) | Sajib completed the Login and Register pages with working authentication and added the Sign Up link. Pratham fixed navigation and post-related issues. | Previous issues were being resolved with help from the team. Work continued on merging changes, testing and deployment. | Sajib |
+
+### General Scrum Status
+
+The team is progressing according to the Sprint 3 plan. There are **no major blockers at the moment**. Whenever smaller issues have appeared, team members have discussed them together and helped each other resolve them. Work is continuing on connecting all parts of the application, testing the features and preparing the project for deployment.
