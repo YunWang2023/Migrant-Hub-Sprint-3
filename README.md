@@ -2,9 +2,11 @@
 
 Migrant Hub is a web application designed to help newcomers in Finland find useful information about everyday life, services, communities, and practical tasks.
 
+**Live site:** https://migrant-hub-sprint-3.onrender.com
+
 ## Sprint 3
 
-Sprint 3 focuses on connecting the frontend and backend, adding authentication, protecting API routes, adding AI post enrichment, and testing the API.
+Sprint 3 focuses on connecting the frontend and backend, adding authentication, protecting API routes, adding AI post enrichment, testing the API, and deploying the application.
 
 ## Backend
 
@@ -20,11 +22,19 @@ The backend is built with:
 
 ## API Base URL
 
+In development:
+
 ```text
 http://localhost:4000/api
 ```
 
-The frontend calls the API through `/api`, which Vite proxies to this address in development.
+In production the frontend is served by the same Express app, so the API is at `/api` on the deployed site:
+
+```text
+https://migrant-hub-sprint-3.onrender.com/api
+```
+
+The frontend always calls `/api`. In development Vite proxies that to port 4000; in production it is the same origin, so no proxy is needed.
 
 ## Running the API
 
@@ -36,6 +46,20 @@ npm run seed              # loads demo data
 npm run dev               # starts the API on port 4000
 npm test                  # runs the Vitest test suite
 ```
+
+To run the production build locally, the way the deployed site runs:
+
+```bash
+cd frontend
+npm run build
+rm -rf ../migrant-hub-backend/public
+cp -r dist ../migrant-hub-backend/public
+
+cd ../migrant-hub-backend
+npm start
+```
+
+Express then serves the built React app from `migrant-hub-backend/public`, so the whole site runs on one port. The `public` folder is committed, so Render only has to install and start the backend.
 
 ---
 
@@ -523,7 +547,30 @@ Every error is JSON with an `error` field. Validation errors also include `detai
 
 # CORS
 
-CORS is enabled in the Express application so that the frontend can communicate with the backend from a different origin.
+CORS is enabled in the Express application. In development the frontend runs on port 5173 and the API on port 4000, so the browser treats them as different origins. In production both are served by the same Express app, so CORS is not needed there, but it stays enabled so the development setup keeps working.
+
+---
+
+# Deployment
+
+The site is deployed as a single service on Render.
+
+The React app is built with `npm run build` in `frontend`, and the result is copied into `migrant-hub-backend/public`, which is committed to the repository. Express serves that folder, and any path that is not an API route returns `index.html` so React Router can handle it in the browser.
+
+Render settings:
+
+| Setting | Value |
+|---|---|
+| Root Directory | `migrant-hub-backend` |
+| Build Command | `npm install` |
+| Start Command | `npm start` |
+| Environment | `MONGO_URI`, `JWT_SECRET`, `GEMINI_API_KEY`, `GEMINI_MODEL` |
+
+`PORT` is not set: Render provides it, and `index.js` reads `process.env.PORT` with 4000 as the fallback.
+
+The free instance sleeps after a period of inactivity, so the first request after a quiet period takes up to a minute to answer.
+
+**When the frontend changes**, rebuild it and copy it into `public` again, then commit. Otherwise the deployed site keeps serving the previous build.
 
 ---
 
@@ -553,9 +600,9 @@ npm test
 - **`tests/posts.test.js`** – public reading, creating without a token, the author being taken from the token, an `author` sent by the client being ignored, missing and invalid categories, the 512 word limit, unknown and malformed ids, partial updates, 403 when another user updates or deletes, category filtering, search terms being escaped, and the owner deleting their own post
 - **`tests/content.test.js`** – communities and the Must Do checklist, 401 on every write route, the AI endpoint without a token and with an empty draft, and a 404 with a JSON body for an unknown route
 
-## Postman
+## Manual testing
 
-The same endpoints were also checked by hand in Postman during development. The Postman environment uses a `token` variable for authenticated requests.
+Endpoints were also checked by hand in the browser and with Postman during development. The automated suite replaced the saved Postman collection as the testing artifact for this sprint.
 
 ---
 
