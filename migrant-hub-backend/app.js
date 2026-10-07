@@ -12,7 +12,9 @@ const postRoutes = require("./routes/postRoutes");
 const communityRoutes = require("./routes/communityRoutes");
 const mustDoRoutes = require("./routes/mustDoRoutes");
 
-
+// This file only builds the Express app. Connecting to MongoDB and
+// listening on a port happens in index.js, so the test suite can
+// import the app without starting a real server.
 const app = express();
 
 app.use(cors());
@@ -28,18 +30,21 @@ app.use("/api/posts", postRoutes);
 app.use("/api/communities", communityRoutes);
 app.use("/api/mustdo", mustDoRoutes);
 
+// The built React app is copied into this folder, so the backend
+// serves the whole site and we deploy one service.
+const publicFolder = path.join(__dirname, "public");
 
-const frontendDist = path.join(__dirname, "..", "frontend", "dist");
+if (fs.existsSync(publicFolder)) {
+  app.use(express.static(publicFolder));
 
-if (fs.existsSync(frontendDist)) {
-  app.use(express.static(frontendDist));
-
+  // Anything that is not an API route is a React Router path, so send
+  // index.html and let the router in the browser handle it.
   app.use((req, res, next) => {
     if (req.path.startsWith("/api")) {
       return next();
     }
 
-    res.sendFile(path.join(frontendDist, "index.html"));
+    res.sendFile(path.join(publicFolder, "index.html"));
   });
 }
 
