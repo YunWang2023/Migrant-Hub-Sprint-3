@@ -1,0 +1,47 @@
+# Sprint 3 Self-Assessment — Yun Wang
+
+**Project:** Migrant Hub  
+**Sprint:** Sprint 3 
+**My part:** Backend — API, authentication endpoints, integration, error handling and documentation
+
+## What I did
+
+- Added CORS so the React frontend can communicate with the Express backend.
+- Built the authentication endpoints for register, login, current user and logout.
+- Added authentication protection to the API routes that need a logged-in user, including creating, updating and deleting posts.
+- Added consistent error handling for authentication and API requests, including missing and invalid tokens.
+- Tested the backend API with Postman, including successful requests and error cases.
+- Updated the Postman collection with the authentication requests and JWT token.
+- Wrote and updated the API documentation, including the endpoints, methods, authentication requirements and responses.
+- Worked with the frontend team during the integration so the frontend could use the real backend API.
+- Helped test the complete frontend and backend flow before the final presentation.
+
+## What went well
+
+The frontend and backend integration was the best part of my work. In the previous sprint, we built them separately. In Sprint 3, we finally connected them and used the real API.
+
+Adding CORS and authentication made it possible for the frontend to communicate with the protected backend routes. I also tested the API with Postman before and during the integration, which helped us find problems earlier.
+
+The API documentation also went well. It gives the team a clear reference for the endpoints and makes it easier for the frontend to know what to send and what to expect back.
+
+## What was hard
+
+The hardest part was connecting the frontend and backend because both sides had been developed separately.
+
+Authentication was also challenging. The frontend needed to send the JWT token with protected requests, and the backend needed to check the token and return the correct response when the token was missing or invalid.
+
+We also had to make sure that the frontend and backend used the same endpoint names, field names and response formats. Small differences could cause problems during integration.
+
+## What I would do differently
+
+I would start my part earlier and give my teammates enough time to work with my part.
+
+I learned that problems and unexpected things can happen during the project. I should not wait until the last week, especially the last few days, to start important work.
+
+Next time, I will start earlier, finish my part earlier, and leave enough time for testing, integration and helping my teammates.
+
+## My grade
+
+**Full marks.**
+
+I completed the parts of my Sprint 3 task: CORS, authentication endpoints, protected routes, API error handling, testing and documentation.
