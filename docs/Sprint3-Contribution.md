@@ -7,7 +7,7 @@ Sprint 3 - Contribution Record
 - Connect posts with logged-in users
 - AI post enrichment: teaser, tags, category and suggested community
 - AI failure handling
-- The Atlas cluster, the database user and deployment
+- The Atlas cluster, the database user and website deployment
 - Sprint 1 prototype alignment document
 - Build Sprint 3 presentation
 - Backend self-assessment with Yun     
