@@ -1,4 +1,4 @@
-Sprint 3 — Contribution Record
+Sprint 3 - Contribution Record
 
 **Sehwinder Singh — Backend**
 - User model and authentication data
