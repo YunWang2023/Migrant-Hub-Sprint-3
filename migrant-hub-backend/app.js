@@ -1,4 +1,6 @@
 require("dotenv").config();
+const fs = require("fs");
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -10,9 +12,7 @@ const postRoutes = require("./routes/postRoutes");
 const communityRoutes = require("./routes/communityRoutes");
 const mustDoRoutes = require("./routes/mustDoRoutes");
 
-// This file only builds the Express app. Connecting to MongoDB and
-// listening on a port happens in server.js, so the test suite can
-// import the app without starting a real server.
+
 const app = express();
 
 app.use(cors());
@@ -27,6 +27,21 @@ app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/communities", communityRoutes);
 app.use("/api/mustdo", mustDoRoutes);
+
+
+const frontendDist = path.join(__dirname, "..", "frontend", "dist");
+
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+
+  app.use((req, res, next) => {
+    if (req.path.startsWith("/api")) {
+      return next();
+    }
+
+    res.sendFile(path.join(frontendDist, "index.html"));
+  });
+}
 
 app.use((req, res) => {
   res.status(404).json({ error: "Not found" });
