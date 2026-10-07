@@ -1,0 +1,66 @@
+# Sprint 3 Retrospective
+
+**Project:** Migrant Hub — student onboarding and blogging platform
+**Sprint:** Sprint 3 (17 September – 7 October 2026)
+**Team:** Pratham Arora, Yun Wang, Prabhleen Kaur, Sajib Das, Sehwinder Singh
+**Scrum Master:** Sajib Das
+**Format:** 4Ls
+
+## Liked
+
+- We agreed on the API contract early, so the frontend and backend matched when
+  we finally joined them.
+- Everyone had their own part and knew what to do. The task split was written
+  down at the start of the sprint and we worked to it.
+- The AI feature still lets you publish even when it does not answer. We built
+  the failure path on purpose instead of hoping the service would be up.
+
+## Learned
+
+- How to test an API with Vitest and Supertest, including routes that need a
+  token.
+- How login and tokens work from start to finish: hashing the password, issuing
+  the token, verifying it, and checking that a post belongs to the person
+  editing it.
+- Gemini returned 503 on most of our attempts near the deadline because the free model was busy.
+
+## Lacked
+
+- We did not say who owns which file. Two of us rewrote the same file on the
+  same night and had to resolve it by hand afterwards.
+- We left the documents part until the end. 
+
+## Longed for
+
+- Joining the frontend and backend earlier than the final week.
+- Time to put the site online.
+
+
+## Workload distribution
+
+The work was split in the Sprint 3 task split document: three members on the
+frontend and two on the backend, with roughly equal numbers of tasks each. The
+Sprint 2 retrospective said the work had not been even, so this sprint we agreed
+the split in writing before any code was written.
+
+Commit counts are not even across the team, because some work was paired, some
+was pushed from one machine and documentation and design do not appear as
+commits. What each person owned is recorded in the task split document.
+
+## Communication
+
+We met over Zoom and used WhatsApp daily. Attendance was full at
+every meeting. When somebody was stuck, another member stopped and helped rather
+than leaving it to the next day.
+
+## Metrics
+
+- Sprint 3 backlog: 44 items planned.
+- Completed: All of the tasks items on the board.
+- Not completed: deployment. It was named in our sprint goal and is carried
+  forward rather than dropped.
+- Velocity: Sprint 2 was 25 of 26 items. Sprint 3 was 45 of 45.
+- Team satisfaction: We are all satisfied with our work this sprint.
+- Attendance: full at every meeting.
+
+
