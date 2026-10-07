@@ -1,0 +1,114 @@
+/* Edit and delete controls on a post, shown only to its author. */
+
+.post-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin: 1.5rem 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(6, 36, 58, 0.12);
+}
+
+.post-action {
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid #1f5f99;
+    background: #ffffff;
+    color: #1f5f99;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.post-action:hover:not(:disabled) {
+    background: #1f5f99;
+    color: #ffffff;
+}
+
+.post-action-danger {
+    border-color: #a8341a;
+    color: #a8341a;
+}
+
+.post-action-danger:hover:not(:disabled) {
+    background: #a8341a;
+    color: #ffffff;
+}
+
+.post-action:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.post-action-note {
+    font-size: 0.85rem;
+    color: #5b6b7c;
+}
+
+/* Inline "are you sure" instead of a browser popup. */
+.post-confirm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 10px;
+    border: 1px solid #e2c9c1;
+    background: #fbeee9;
+}
+
+.post-confirm p {
+    margin: 0;
+    flex: 1 1 18rem;
+    font-size: 0.9rem;
+    color: #7a2d16;
+}
+
+/* Edit form */
+.post-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(6, 36, 58, 0.1);
+}
+
+.post-edit-form label {
+    margin-top: 0.75rem;
+    font-weight: 700;
+    color: #16293d;
+}
+
+.post-edit-form input,
+.post-edit-form textarea,
+.post-edit-form select {
+    padding: 0.7rem 0.9rem;
+    border: 1px solid #cfd6dd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: #16293d;
+    background: #ffffff;
+}
+
+.post-edit-form textarea {
+    min-height: 14rem;
+    resize: vertical;
+}
+
+.post-edit-form .word-counter {
+    margin: 0.3rem 0 0;
+    font-size: 0.85rem;
+    color: #5b6b7c;
+}
+
+.post-edit-form .word-counter.exceeded {
+    color: #a8341a;
+    font-weight: 600;
+}
