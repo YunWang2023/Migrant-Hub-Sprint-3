@@ -1,4 +1,4 @@
-# Sprint 3 Self-Assessment — Sehwinder Singh
+# Sprint 3 Self-Assessment - Sehwinder Singh
 
 **Project:** Migrant Hub
 **Sprint:** Sprint 3 (17 September - 7 October 2026)
