@@ -56,9 +56,7 @@ than leaving it to the next day.
 ## Metrics
 
 - Sprint 3 backlog: 44 items planned.
-- Completed: All of the tasks items on the board.
-- Not completed: deployment. It was named in our sprint goal and is carried
-  forward rather than dropped.
+- Completed: All of the tasks items on the board and deployment
 - Velocity: 44 of 44.
 - Team satisfaction: We are all satisfied with our work this sprint.
 - Attendance: full at every meeting.
